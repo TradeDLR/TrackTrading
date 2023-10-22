@@ -1,3 +1,9 @@
 *.csv
 config.py
 .idea
+
+touch .gitignore
+*.pyc
+*.pyo
+*.egg-info/
+.venv/
