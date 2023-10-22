@@ -77,8 +77,8 @@ def calculation_usdt(balances, prices):
 
 
 def write_to_csv(balances, Total_asset):
-    with open('output.csv', 'w', newline='') as csvfile:
-        writer = csv.writer(csvfile, delimiter='\t')
+    with open('accountinfo/output.csv', 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile, delimiter=',')
         writer.writerow(["asset-currency", "balance", "locked", "value-in-usdt"])
         for balance in balances:
             writer.writerow([balance['asset'], balance['total_balance'], balance['locked_balance'], balance['usdt_value']])
@@ -106,7 +106,7 @@ if __name__ == '__main__':
         _, prices = get_coin_list_and_prices(balances)
 
         Total_asset = calculation_usdt(balances, prices)
-        # print(balances)
+        print(balances)
         write_to_csv(balances, Total_asset)
         # debug(balances, Total_asset)
         print("Data has been written to output.csv")
