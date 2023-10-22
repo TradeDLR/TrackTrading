@@ -1,9 +1,23 @@
+# output files
 *.csv
-config.py
-.idea
 *.xlsx
-touch .gitignore
+
+# confidential file
+config.py
+
+# Package metadata
+*.egg-info/
+
+# Virtual environment directory
+.venv/
+
+# IDE configuration files
+.idea/
+
+# Compiled Python files
 *.pyc
 *.pyo
-*.egg-info/
-.venv/
+
+# Other redundant or temporary files
+*.log
+*.tmp
