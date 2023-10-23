@@ -19,7 +19,10 @@ git clone https://github.com/DanYuDE/TrackTrading.git
 ``` shell
 cd TrackTrading
 ```
-3. Create a config.py under TrackTrading: /../TrackTrading/config.py and add your API_KEY and SECRET_KEY in config.py
+3. Create a config.py under TrackTrading and add your API_KEY and SECRET_KEY in config.py
+``` shell
+nano config.py
+```
 ``` config.py
 API_KEY = "YOUR_API_KEY"
 SECRET_KEY = "YOUR_SECRET_KEY"
