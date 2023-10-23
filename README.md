@@ -1,4 +1,3 @@
-# TrackTrading
 ## Getting Started
 TrackTrading is a trading analysis tool that helps users keep track of various crypto assets, get real-time price updates, 
 and calculate the total value of their assets in USDT (or any other reference currency).
