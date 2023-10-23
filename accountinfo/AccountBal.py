@@ -3,6 +3,9 @@ import requests
 import hmac
 from hashlib import sha256
 import csv
+import sys
+sys.path.append('../TrackTrading') # Replace with the absolute path to your TrackTrading directory
+
 import config
 
 APIURL = "https://open-api.bingx.com"
