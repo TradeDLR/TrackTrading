@@ -1,5 +1,5 @@
 from apiUtils import get_sign, send_request, parse_params
-
+from csv_xlsx import write_fund_to_csv
 def get_coin_list_and_prices(balances):  # get coin list from the fund account and each coin's latest price
     coin_lst = []
     coin_prices = {}
@@ -54,3 +54,25 @@ def debug(balances, Total_asset):
     for balance in balances:
         print(balance['asset'], balance['total_balance'], balance['free_balance'], balance['locked_balance'], balance['usdt_value'])
     print("Total Asset (USDT)", "", "", "", Total_asset)
+
+def get_fund_balance():
+    try:
+        path = '/openApi/spot/v1/account/balance'
+        method = "GET"
+        paramsMap = {
+            "recvWindow": 0
+        }
+        paramsStr = parse_params(paramsMap)
+        response = send_request(method, path, paramsStr, {})
+        response_dict = response.json()
+        # print(response_dict)
+        balances = response_dict.get('data', {}).get('balances', [])
+        _, prices = get_coin_list_and_prices(balances)
+        # print(balances)
+        fund_total = calculation_usdt(balances, prices)
+        debug(balances, fund_total)
+        write_fund_to_csv(balances, fund_total)
+        print("Data has been written to output.csv")
+        return fund_total
+    except Exception as e:
+        print(f"Error occurred: {e}")
