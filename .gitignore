@@ -21,3 +21,5 @@ config.py
 # Other redundant or temporary files
 *.log
 *.tmp
+
+.DS_Store
