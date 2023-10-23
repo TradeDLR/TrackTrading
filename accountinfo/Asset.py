@@ -12,4 +12,4 @@ if __name__ == '__main__':
     future_asset = 0
     total_asset = fund + unrealized_profit + margin + future_asset
     write_total_asset_to_csv(total_asset)
-    print(total_asset)
+    # print(total_asset)
