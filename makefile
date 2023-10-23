@@ -1,2 +1,2 @@
 all:
-	@python3 AccountBal.py
+	@python3 accountinfo/AccountBal.py
