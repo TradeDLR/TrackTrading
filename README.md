@@ -1,4 +1,3 @@
-# Trading_Track 
 ## Getting Started
 TrackTrading is a trading analysis tool that helps users keep track of various crypto assets, get real-time price updates, 
 and calculate the total value of their assets in USDT (or any other reference currency).
@@ -14,7 +13,7 @@ and calculate the total value of their assets in USDT (or any other reference cu
 ### Installation
 1. Clone the repository:
 ```shell
-git clone https://github.com/YourUsername/TrackTrading.git
+git clone https://github.com/DanYuDE/TrackTrading.git
 ```
 2. Navigate to the project directory:
 ``` shell
