@@ -31,7 +31,7 @@ def parse_params(params_map):
     return f"{paramsStr}&timestamp={int(time.time() * 1000)}"
 
 
-def get_coin_list_and_prices(balances):
+def get_coin_list_and_prices(balances):  # get coin list from the fund account and each coin's latest price
     coin_lst = []
     coin_prices = {}
     path = '/openApi/spot/v1/ticker/24hr'
@@ -54,21 +54,23 @@ def get_coin_list_and_prices(balances):
         if data:
             last_price = data[0].get('lastPrice', 0)
             coin_prices[unit] = last_price
-            print(f"1 {unit} is equivalent to {last_price} USDT.")
+            # print(f"1 {unit} is equivalent to {last_price} USDT.")
     return coin_lst, coin_prices
 
 
-def calculation_usdt(balances, prices):
+def calculation_usdt(balances, prices):  # calculate total asset and each coin's asset
     Total = 0
     for balance in balances:
+        # print(balance)
         asset = balance.get('asset', '')
         free_balance = float(balance.get('free', '0'))
         locked_balance = float(balance.get('locked', '0'))
         total_balance = free_balance + locked_balance
 
         # Store total_balance into the balance dictionary
-        balance['total_balance'] = total_balance
+        balance['free_balance'] = free_balance
         balance['locked_balance'] = locked_balance
+        balance['total_balance'] = total_balance
 
         coin_value = 0
         if asset in prices:
@@ -82,17 +84,17 @@ def calculation_usdt(balances, prices):
 def write_to_csv(balances, Total_asset):
     with open('accountinfo/output.csv', 'w', newline='') as csvfile:
         writer = csv.writer(csvfile, delimiter=',')
-        writer.writerow(["asset-currency", "balance", "locked", "value-in-usdt"])
+        writer.writerow(["asset-currency", "balance", "free", "locked", "value-in-usdt"])
         for balance in balances:
-            writer.writerow([balance['asset'], balance['total_balance'], balance['locked_balance'], balance['usdt_value']])
-        writer.writerow(["Total Asset (USDT)", "", "", Total_asset])
+            writer.writerow([balance['asset'], balance['total_balance'], balance['free_balance'], balance['locked_balance'], balance['usdt_value']])
+        writer.writerow(["Total Asset (USDT)", "", "", "", Total_asset])
 
 
 def debug(balances, Total_asset):
-    print("asset-currency", "balance", "locked", "value-in-usdt")
+    print("asset-currency", "balance", "free", "locked", "value-in-usdt")
     for balance in balances:
-        print(balance['asset'], balance['total_balance'], balance['locked_balance'], balance['usdt_value'])
-    print("Total Asset (USDT)", "", "", Total_asset)
+        print(balance['asset'], balance['total_balance'], balance['free_balance'], balance['locked_balance'], balance['usdt_value'])
+    print("Total Asset (USDT)", "", "", "", Total_asset)
 
 
 if __name__ == '__main__':
@@ -107,9 +109,9 @@ if __name__ == '__main__':
         response_dict = response.json()
         balances = response_dict.get('data', {}).get('balances', [])
         _, prices = get_coin_list_and_prices(balances)
-
+        # print(balances)
         Total_asset = calculation_usdt(balances, prices)
-        print(balances)
+
         write_to_csv(balances, Total_asset)
         # debug(balances, Total_asset)
         print("Data has been written to output.csv")
