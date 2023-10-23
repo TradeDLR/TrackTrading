@@ -14,7 +14,7 @@ and calculate the total value of their assets in USDT (or any other reference cu
 ### Installation
 1. Clone the repository:
 ```shell
-git clone https://github.com/YourUsername/TrackTrading.git
+git clone https://github.com/DanYuDE/TrackTrading.git
 ```
 2. Navigate to the project directory:
 ``` shell
