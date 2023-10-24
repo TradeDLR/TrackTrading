@@ -1,22 +1,25 @@
 import pandas as pd
 import csv
 
-def write_fund_to_csv(balances, fund_total):
-    with open('output.csv', 'w', newline='') as csvfile:
+def writeFundtoCSV(balances, fund_total):
+    with open('asset.csv', 'w', newline='') as csvfile:
         writer = csv.writer(csvfile, delimiter=',')
         writer.writerow(["asset-currency", "balance", "free", "locked", "value-in-usdt"])
         for balance in balances:
             writer.writerow([balance['asset'], balance['total_balance'], balance['free_balance'], balance['locked_balance'], balance['usdt_value']])
         writer.writerow(["Fund Total (USDT)", "", "", "", fund_total])
+    print("Fund Total has been written to asset.csv")
 
 
-def write_total_asset_to_csv(total_asset):
-    with open('output.csv', 'a', newline='') as csvfile:
+def writeTotalAssetCSV(total_asset):
+    with open('asset.csv', 'a', newline='') as csvfile:
         writer = csv.writer(csvfile, delimiter=',')
         writer.writerow(["Total Asset(USDT)", "", "", "", total_asset])
-    csv_to_excel('output.csv', 'output.xlsx')
+    print("Total asset has been written to asset.csv")
+    csvToExcel('asset.csv', 'asset.xlsx')
+    print("CSV has been converted to asset.csv")
 
-def csv_to_excel(csv_file, excel_file):
+def csvToExcel(csv_file, excel_file):
     # Read the CSV file into a DataFrame
     df = pd.read_csv(csv_file)
 

@@ -5,6 +5,9 @@
 # confidential file
 config.py
 
+# test file
+test.py
+
 # Package metadata
 *.egg-info/
 
