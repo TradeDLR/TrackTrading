@@ -1,5 +1,5 @@
 from apiUtils import BingxAPI
-from csv_xlsx import writeFundtoCSV
+from csv_xlsx import AssetWriter
 
 class FundBalance(BingxAPI):
 
@@ -72,7 +72,8 @@ class FundBalance(BingxAPI):
             balance = FundBalance.getBalance(path, method, paramsMap)
             _, prices = FundBalance.getCoinListPrices(balance)
             fundTotal = FundBalance.calculationUSDT(balance, prices)
-            writeFundtoCSV(balance, fundTotal)
+            writer = AssetWriter()
+            writer.writeTotalAssetCSV(balance, fundTotal)
             return fundTotal
         except Exception as e:
             print(f"Error occurred: {e}")

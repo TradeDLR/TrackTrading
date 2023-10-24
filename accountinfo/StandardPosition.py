@@ -34,4 +34,4 @@ class StandardPosition(BingxAPI):
             totalMargin += margin
             totalUnrealizedProfit += unrealizedProfit
 
-        return totalMargin, totalUnrealizedProfit
+        return float(totalMargin), float(totalUnrealizedProfit)

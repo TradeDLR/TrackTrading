@@ -1,7 +1,7 @@
 from FundBalance import FundBalance
 from PerpetualBalance import PerpetualBalance
 from StandardPosition import StandardPosition
-from csv_xlsx import writeTotalAssetCSV
+from csv_xlsx import AssetWriter
 
 class MainExecutor:
     @staticmethod
@@ -11,7 +11,8 @@ class MainExecutor:
         margin, stdUP = StandardPosition.getOpenOrder()
 
         totalAsset = fund + stdUP + margin + perpAsset + perpUP + perpRP
-        writeTotalAssetCSV(totalAsset)
+        writer = AssetWriter()
+        writer.appendTotalAssetCSV(totalAsset)
 
 if __name__ == '__main__':
     MainExecutor.run()
