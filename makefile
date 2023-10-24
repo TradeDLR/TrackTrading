@@ -1,2 +1,2 @@
 all:
-	@python3 accountinfo/FundBalance.py
+	@PYTHONPATH=$(shell pwd) python3 accountinfo/Asset.py

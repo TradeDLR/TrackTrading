@@ -1,8 +1,8 @@
+import sys
+sys.path.append('../')
 from apiUtils import BingxAPI
 from csv_xlsx import AssetWriter
-
 class FundBalance(BingxAPI):
-
     @staticmethod
     def getCoinListPrices(balances):
         coinLst = []

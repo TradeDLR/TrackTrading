@@ -1,5 +1,6 @@
+import sys
+sys.path.append('../')
 from apiUtils import BingxAPI
-
 
 class PerpetualBalance(BingxAPI):
 

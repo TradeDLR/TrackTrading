@@ -2,7 +2,7 @@ import pandas as pd
 import csv
 
 class AssetWriter:
-    def __init__(self, csv_filename='../result/asset.csv', excel_filename='../result/asset.xlsx'):
+    def __init__(self, csv_filename='result/asset.csv', excel_filename='result/asset.xlsx'):
         self.csv_filename = csv_filename
         self.excel_filename = excel_filename
 
