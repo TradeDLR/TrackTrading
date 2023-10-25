@@ -1,6 +1,3 @@
-import sys
-sys.path.append('../')
-
 from FundBalance import FundBalance
 from PerpetualBalance import PerpetualBalance
 from StandardPosition import StandardPosition

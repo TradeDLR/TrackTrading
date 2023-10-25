@@ -2,9 +2,6 @@ import time
 import requests
 import hmac
 from hashlib import sha256
-import sys
-sys.path.append('../')
-
 import config
 
 class BingxAPI:
