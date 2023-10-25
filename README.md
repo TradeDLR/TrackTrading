@@ -36,6 +36,6 @@ make -j$(nproc)
 ```
 or
 ```shell
-python3 accountinfo/FundBalance.py
+python3 accountinfo/Asset.py
 ```
 
