@@ -1,14 +1,13 @@
 import ccxt
 import config
 
-class PerpetualBalance:
+class StandardBalance:
     def __init__(self, exchange):
         self.exchange = exchange
 
-    def get_perp_balance(self, asset='USDT'):  # You can set a default asset or require it as an argument
+    def get_std_balance(self, asset='USDT'):  # You can set a default asset or require it as an argument
         try:
-            balance = self.exchange.fetch_balance({'type': 'swap'})
-            # print(balance)
+            balance = self.exchange.fetch_balance({'standard': True})
             asset_balance = balance['total'].get(asset, 0)
             unrealized_profit = balance['info'].get('unrealizedProfit', 0)
             realized_profit = balance['info'].get('realizedProfit', 0)
