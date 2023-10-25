@@ -14,7 +14,6 @@ class FundBalance(BingxAPI):
             if unit == "USDT":
                 coinPrices[unit] = 1.0
                 continue
-
             symbol = unit + "-USDT"
             paramsMap = {
                 "symbol": symbol
@@ -67,11 +66,18 @@ class FundBalance(BingxAPI):
             paramsMap = {
                 "recvWindow": 0
             }
-            balance = FundBalance.getBalance(path, method, paramsMap)
-            _, prices = FundBalance.getCoinListPrices(balance)
-            fundTotal = FundBalance.calculationUSDT(balance, prices)
+            balances = FundBalance.getBalance(path, method, paramsMap)
+            # for balance in balances:
+            #     print("Asset:", balance['asset'])
+            #     print("Free (type):", type(balance['free']))
+            #     print("Free (value):", balance['free'])
+
+            filtered_balances = [b for b in balances if float(b['free']) != 0.0]
+            # print("filtered_balances: ", filtered_balances)
+            _, prices = FundBalance.getCoinListPrices(filtered_balances)
+            fundTotal = FundBalance.calculationUSDT(filtered_balances, prices)
             writer = AssetWriter()
-            writer.writeTotalAssetCSV(balance, fundTotal)
+            writer.writeTotalAssetCSV(filtered_balances, fundTotal)
             return fundTotal
         except Exception as e:
             print(f"Error occurred: {e}")

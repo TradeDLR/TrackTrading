@@ -2,6 +2,7 @@ from FundBalance import FundBalance
 from PerpetualBalance import PerpetualBalance
 from StandardPosition import StandardPosition
 from csv_xlsx import AssetWriter
+from datetime import datetime
 class MainExecutor:
     @staticmethod
     def run():
@@ -14,4 +15,9 @@ class MainExecutor:
         writer.appendTotalAssetCSV(totalAsset)
 
 if __name__ == '__main__':
+    start_time = datetime.now()
     MainExecutor.run()
+    end_time = datetime.now()
+
+    elapsed_time = end_time - start_time
+    print(f"Time taken: {elapsed_time} seconds")
