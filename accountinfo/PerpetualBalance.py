@@ -1,6 +1,4 @@
-import ccxt
-import config
-
+from datetime import datetime
 class PerpetualBalance:
     def __init__(self, exchange):
         self.exchange = exchange
@@ -9,11 +7,11 @@ class PerpetualBalance:
         try:
             balance = self.exchange.fetch_balance({'type': 'swap'})
             # print(balance)
-            asset_balance = balance['total'].get(asset, 0)
-            unrealized_profit = balance['info'].get('unrealizedProfit', 0)
-            realized_profit = balance['info'].get('realizedProfit', 0)
+            assetBalance = balance['total'].get(asset, 0)
+            unrealizedProfit = balance['info'].get('unrealizedProfit', 0)
+            realizedProfit = balance['info'].get('realizedProfit', 0)
 
-            return asset_balance, unrealized_profit, realized_profit
+            return assetBalance, unrealizedProfit, realizedProfit
         except Exception as e:
             print(f"An error occurred: {e}")
             return 0, 0, 0  # Return zeros or None if you prefer, in case of an error
