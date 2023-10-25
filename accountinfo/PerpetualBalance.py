@@ -1,22 +1,17 @@
-import sys
-sys.path.append('../')
-from apiUtils import BingxAPI
+import ccxt
+import config
 
-class PerpetualBalance(BingxAPI):
+class PerpetualBalance:
+    def __init__(self):
+        self.exchange = ccxt.bingx({
+            'apiKey': config.API_KEY,
+            'secret': config.SECRET_KEY,
+        })
 
-    @staticmethod
-    def getPerpBalance():
-        payload = {}
-        path = '/openApi/swap/v2/user/balance'
-        method = "GET"
-        paramsMap = {
-            "recvWindow": 0
-        }
-        paramsStr = PerpetualBalance.parseParams(paramsMap)
-        responseDict = PerpetualBalance.sendRequest(method, path, paramsStr, payload)
-
-        asset = float(responseDict.get('data', {}).get('balance', {}).get('balance', '0'))
-        unrealizedProfit = float(responseDict.get('data', {}).get('balance', {}).get('unrealizedProfit', '0'))
-        realizedProfit = float(responseDict.get('data', {}).get('balance', {}).get('realizedProfit', '0'))
-
-        return asset, unrealizedProfit, realizedProfit
+    def get_perp_balance(self):
+        balance = self.exchange.fetch_balance()
+        asset = balance['total']['USDT']  # Replace 'USDT' with the actual asset you are interested in.
+        # Fetching unrealized and realized profits might need additional API calls or calculations depending on the exchange.
+        unrealized_profit = 0  # Placeholder value
+        realized_profit = 0  # Placeholder value
+        return asset, unrealized_profit, realized_profit

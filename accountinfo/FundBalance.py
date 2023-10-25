@@ -1,83 +1,72 @@
-from apiUtils import BingxAPI
+import ccxt
+
+import config
 from csv_xlsx import AssetWriter
-class FundBalance(BingxAPI):
-    @staticmethod
-    def getCoinListPrices(balances):
-        coinLst = []
-        coinPrices = {}
-        path = '/openApi/spot/v1/ticker/24hr'
-        method = "GET"
+
+class FundBalance:
+    def __init__(self):
+        self.exchange = ccxt.bingx({
+            'apiKey': config.API_KEY,
+            'secret': config.SECRET_KEY,
+        })\
+
+    def get_coin_list_prices(self, balances):
+        coin_prices = {}
         for balance in balances:
-            unit = balance.get('asset')
-            coinLst.append(unit)
-
-            if unit == "USDT":
-                coinPrices[unit] = 1.0
-                continue
-
-            symbol = unit + "-USDT"
-            paramsMap = {
-                "symbol": symbol
-            }
-            paramsStr = FundBalance.parseParams(paramsMap)
-            response = FundBalance.sendRequest(method, path, paramsStr, {})
-            data = response.get('data', [])
-            if data:
-                coinPrices[unit] = FundBalance.getPrices(data, unit)
-        return coinLst, coinPrices
+            asset = balance['asset']
+            if asset == "USDT":
+                coin_prices[asset] = 1.0
+            else:
+                symbol = f"{asset}-USDT"
+                if symbol in self.exchange.symbols:
+                    ticker = self.exchange.fetch_ticker(symbol)
+                    coin_prices[asset] = float(ticker['last'])
+        return coin_prices
 
     @staticmethod
     def getPrices(data, unit):
         lastPrice = data[0].get('lastPrice', 0)
         return lastPrice
 
-    @staticmethod
-    def calculationUSDT(balances, prices):
-        Total = 0
+    def calculation_usdt(self, balances, prices):
+        total = 0
         for balance in balances:
-            asset = balance.get('asset', '')
-            free_balance = float(balance.get('free', '0'))
-            locked_balance = float(balance.get('locked', '0'))
-            total_balance = free_balance + locked_balance
-
-            balance['free_balance'] = free_balance
-            balance['locked_balance'] = locked_balance
-            balance['total_balance'] = total_balance
-
-            coin_value = 0
+            asset = balance['asset']
+            total_balance = balance['total_balance']
             if asset in prices:
                 coin_value = total_balance * prices[asset]
-                Total += coin_value
-            balance['usdt_value'] = coin_value
-
-        return Total
+                total += coin_value
+                balance['usdt_value'] = coin_value
+        return total
 
     @staticmethod
-    def debug(balances, Total_asset):
+    def debug(balances, total_asset):
         print("asset-currency", "balance", "free", "locked", "value-in-usdt")
         for balance in balances:
-            print(balance['asset'], balance['total_balance'], balance['free_balance'], balance['locked_balance'], balance['usdt_value'])
-        print("Total Asset (USDT)", "", "", "", Total_asset)
+            print(balance['asset'], balance['total_balance'], balance['free_balance'], balance['locked_balance'],
+                  balance.get('usdt_value', 0))
+        print("Total Asset (USDT)", "", "", "", total_asset)
 
-    @staticmethod
-    def getFundBalance():
+
+    def get_fund_balance(self):
         try:
-            path = '/openApi/spot/v1/account/balance'
-            method = "GET"
-            paramsMap = {
-                "recvWindow": 0
-            }
-            balance = FundBalance.getBalance(path, method, paramsMap)
-            _, prices = FundBalance.getCoinListPrices(balance)
-            fundTotal = FundBalance.calculationUSDT(balance, prices)
+            balance = self.exchange.fetch_balance()
+            balances = []
+            for asset, amount in balance['total'].items():
+                free_balance = balance['free'][asset]
+                locked_balance = balance['used'][asset]
+                total_balance = free_balance + locked_balance
+                balances.append({
+                    'asset': asset,
+                    'free_balance': free_balance,
+                    'locked_balance': locked_balance,
+                    'total_balance': total_balance,
+                })
+
+            prices = self.get_coin_list_prices(balances)
+            fund_total = self.calculation_usdt(balances, prices)
             writer = AssetWriter()
-            writer.writeTotalAssetCSV(balance, fundTotal)
-            return fundTotal
+            writer.writeTotalAssetCSV(balances, fund_total)
+            return fund_total
         except Exception as e:
             print(f"Error occurred: {e}")
-
-    @staticmethod
-    def getBalance(path, method, parMap):
-        paramsStr = FundBalance.parseParams(parMap)
-        responseDict = FundBalance.sendRequest(method, path, paramsStr)
-        return responseDict.get('data', {}).get('balances', [])

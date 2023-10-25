@@ -1,36 +1,16 @@
-from apiUtils import BingxAPI
-class StandardPosition(BingxAPI):
+import ccxt
+import config
 
-    @staticmethod
-    def getOpenOrder():
-        path = '/openApi/contract/v1/allPosition'
-        method = "GET"
-        paramsMap = {
-            "recvWindow": 0
-        }
-        paramsStr = StandardPosition.parseParams(paramsMap)
-        responseDict = StandardPosition.sendRequest(method, path, paramsStr, {})
+class StandardPosition:
+    def __init__(self):
+        self.exchange = ccxt.bingx({
+            'apiKey': config.API_KEY,
+            'secret': config.SECRET_KEY,
+        })
 
-        dataExist = responseDict.get('data', [])
-        if dataExist:
-            margin, unrealizedProfit = StandardPosition.getMarginUnrealizedProfit(responseDict)
-            return margin, unrealizedProfit
-        return 0, 0
-
-    @staticmethod
-    def getMarginUnrealizedProfit(data_dict):
-        orders = data_dict.get('data', [])
-        totalMargin = 0
-        totalUnrealizedProfit = 0
-
-        for order in orders:
-            margin = float(order.get('initialMargin', 0))
-            unrealizedProfit = float(order.get('unrealized_pro', 0))
-
-            order["margin"] = margin
-            order["unrealizedProfit"] = unrealizedProfit
-
-            totalMargin += margin
-            totalUnrealizedProfit += unrealizedProfit
-
-        return float(totalMargin), float(totalUnrealizedProfit)
+    def get_open_order(self):
+        # You'll need to replace 'your_symbol' with the actual trading symbol you are interested in.
+        open_orders = self.exchange.fetch_open_orders()
+        total_margin = sum(order['info']['margin'] for order in open_orders)
+        total_unrealized_profit = sum(order['info']['unrealized_profit'] for order in open_orders)
+        return total_margin, total_unrealized_profit
