@@ -21,20 +21,20 @@ class MainExecutor:
         print(f"fundBalance Time taken: {el1} seconds")
 
         s2 = datetime.now()
-        perpBalance = PerpetualBalance(exchange)
-        perpAsset, perpUP, perpRP = perpBalance.get_perp_balance() or 0
+        perp = PerpetualBalance(exchange)
+        perpTotal = perp.getPerpTotal() or 0
         e2 = datetime.now()
         el2 = e2 - s2
         print(f"perpBalance Time taken: {el2} seconds")
 
         s3 = datetime.now()
         stdBalance = StandardBalance(exchange)
-        margin, stdUP, stdRP = stdBalance.get_std_balance() or 0
+        stdTotal = stdBalance.getStdTotal() or 0
         e3 = datetime.now()
         el3 = e3 - s3
         print(f"stdBalance Time taken: {el3} seconds")
 
-        totalAsset = fund + margin + stdUP + stdRP + perpAsset + perpUP + perpRP
+        totalAsset = fund + stdTotal + perpTotal
         writer = AssetWriter()
         writer.appendTotalAssetCSV(totalAsset)
 

@@ -3,6 +3,7 @@ from csv_xlsx import AssetWriter
 class FundBalance:
     def __init__(self, exchange):
         self.exchange = exchange
+        self.balances = []
 
     def getCoinListPrices(self, balances):
         coinPrices = {}
@@ -50,23 +51,28 @@ class FundBalance:
     def getFundBalance(self):
         try:
             balance = self.exchange.fetch_balance()
-            balances = []
+            # balances = []
             for asset, amount in balance['total'].items():
                 freeBalance = balance['free'][asset]
                 if freeBalance != 0.0:
                     lockedBalance = balance['used'][asset]
                     totalBalance = freeBalance + lockedBalance
-                    balances.append({
+                    self.balances.append({
                         'asset': asset,
                         'free_balance': freeBalance,
                         'locked_balance': lockedBalance,
                         'total_balance': totalBalance,
                     })
 
-            prices = self.getCoinListPrices(balances)
-            fundTotal = self.calculationUSDT(balances, prices)
-            writer = AssetWriter()
-            writer.writeTotalAssetCSV(balances, fundTotal)
+            prices = self.getCoinListPrices(self.balances)
+            fundTotal = self.calculationUSDT(self.balances, prices)
+            # FundBalance.debug(balances, fundTotal)
+            print(fundTotal)
             return fundTotal
         except Exception as e:
             print(f"Error occurred: {e}")
+    def callCsvXlsx(self, fundTotal):
+        writer = AssetWriter()
+        writer.writeTotalAssetCSV(self.balances, fundTotal)
+
+
