@@ -16,6 +16,7 @@ class MainExecutor:
         s1 = datetime.now()
         fundBalance = FundBalance(exchange)
         fund = fundBalance.getFundBalance() or 0
+        fundBalance.callCsvXlsx(fund)
         e1 = datetime.now()
         el1 = e1 - s1
         print(f"fundBalance Time taken: {el1} seconds")
