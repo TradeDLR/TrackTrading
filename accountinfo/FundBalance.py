@@ -71,6 +71,7 @@ class FundBalance:
             return fundTotal
         except Exception as e:
             print(f"Error occurred: {e}")
+            
     def callCsvXlsx(self, fundTotal):
         writer = AssetWriter()
         writer.writeTotalAssetCSV(self.balances, fundTotal)
