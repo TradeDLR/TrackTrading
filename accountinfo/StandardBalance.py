@@ -1,21 +1,23 @@
-from datetime import datetime
-class PerpetualBalance:
+import ccxt
+import config
+
+class StandardBalance:
     def __init__(self, exchange):
         self.exchange = exchange
 
-    def getPerpBalance(self, asset='USDT'):  # You can set a default asset or require it as an argument
+    def getStdBalance(self, asset='USDT'):  # You can set a default asset or require it as an argument
         try:
-            balance = self.exchange.fetch_balance({'type': 'swap'})
+            balance = self.exchange.fetch_balance({'standard': True})
             assetBalance = balance['total'].get(asset, 0)
             print(assetBalance)
             return assetBalance
         except Exception as e:
             print(f"An error occurred: {e}")
-            return 0  # Return zeros or None if you prefer, in case of an error
+            return 0, 0, 0  # Return zeros or None if you prefer, in case of an error
 
-    def getPerpUP(self):
+    def getStdUP(self):
         try:
-            balance = self.exchange.fetch_balance({'type': 'swap'})
+            balance = self.exchange.fetch_balance({'standard': True})
             unrealizedProfit = balance['info'].get('unrealizedProfit', 0)
             print(unrealizedProfit)
             return unrealizedProfit
@@ -23,9 +25,9 @@ class PerpetualBalance:
             print(f"An error occurred: {e}")
             return 0 # Return zeros or None if you prefer, in case of an error
 
-    def getPerpRP(self):
+    def getStdRP(self):
         try:
-            balance = self.exchange.fetch_balance({'type': 'swap'})
+            balance = self.exchange.fetch_balance({'standard': True})
             realizedProfit = balance['info'].get('realizedProfit', 0)
             print(realizedProfit)
             return realizedProfit
@@ -33,9 +35,9 @@ class PerpetualBalance:
             print(f"An error occurred: {e}")
             return 0 # Return zeros or None if you prefer, in case of an error
 
-    def getPerpTotal(self, asset='USDT'):
+    def getStdTotal(self, asset='USDT'):
         try:
-            balance = self.exchange.fetch_balance({'type': 'swap'})
+            balance = self.exchange.fetch_balance({'standard': True})
             assetBalance = balance['total'].get(asset, 0)
             unrealizedProfit = balance['info'].get('unrealizedProfit', 0)
             realizedProfit = balance['info'].get('realizedProfit', 0)

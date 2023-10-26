@@ -13,7 +13,7 @@ class AssetWriter:
             for balance in balances:
                 writer.writerow(
                     [balance['asset'], balance['total_balance'], balance['free_balance'], balance['locked_balance'],
-                     balance['usdt_value']])
+                    balance['usdt_value']])
             writer.writerow(["Fund Total (USDT)", "", "", "", fund_total])
         print("Fund Total has been written to", self.csv_filename)
 
