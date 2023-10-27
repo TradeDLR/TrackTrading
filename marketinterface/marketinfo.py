@@ -49,6 +49,7 @@ class marketinfo:
         return self.fetchMarketData("v2/quote/bookTicker", coin)
 
 
+
 mar = marketinfo()
 
 currentTime = int(time.time() * 1000)
