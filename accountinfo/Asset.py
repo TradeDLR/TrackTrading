@@ -1,16 +1,24 @@
 from FundBalance import FundBalance
 from PerpetualBalance import PerpetualBalance
-from StandardPosition import StandardPosition
+from StandardBalance import StandardBalance
 from csv_xlsx import AssetWriter
 from datetime import datetime
 class MainExecutor:
     @staticmethod
     def run():
-        fund = FundBalance.getFundBalance() or 0
-        perpAsset, perpUP, perpRP = PerpetualBalance.getPerpBalance() or 0
-        margin, stdUP = StandardPosition.getOpenOrder() or 0
+        fb = FundBalance()
+        perp = PerpetualBalance()
+        std = StandardBalance()
+        fund = fb.getFundBalance() or 0
+        if perp.updatePerpBalance():
+            perpAsset = perp.getPerpTotal()
+        else:
+            perpAsset = 0
+        stdAsset = std.getStdTotal() or 0
 
-        totalAsset = fund + stdUP + margin + perpAsset + perpUP + perpRP
+        fb.callCsvXlsx(fund)
+
+        totalAsset = fund + perpAsset + stdAsset
         writer = AssetWriter()
         writer.appendTotalAssetCSV(totalAsset)
 
