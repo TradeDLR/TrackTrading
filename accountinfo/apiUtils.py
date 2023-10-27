@@ -4,7 +4,6 @@ import hmac
 from hashlib import sha256
 import config
 
-
 class BingxAPI:
     APIURL = "https://open-api.bingx.com"
     APIKEY = config.API_KEY
