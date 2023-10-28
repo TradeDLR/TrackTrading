@@ -1,6 +1,6 @@
-from FundBalance import FundBalance
-from PerpetualBalance import PerpetualBalance
-from StandardBalance import StandardBalance
+from accountinfo.FundBalance import FundBalance
+from accountinfo.PerpetualBalance import PerpetualBalance
+from accountinfo.StandardBalance import StandardBalance
 
 class UserSocket:
     def __init__(self):

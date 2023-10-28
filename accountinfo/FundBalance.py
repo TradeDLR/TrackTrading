@@ -1,5 +1,5 @@
-from apiUtils import BingxAPI
-from csv_xlsx import AssetWriter
+from .apiUtils import BingxAPI
+from .csv_xlsx import AssetWriter
 
 
 class FundBalance:
