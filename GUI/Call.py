@@ -5,12 +5,14 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from accountinfo.FundBalance import FundBalance
 from accountinfo.PerpetualBalance import PerpetualBalance
 from accountinfo.StandardBalance import StandardBalance
+from marketinterface.marketinfo import MarketInfo
 
 class UserSocket:
     def __init__(self):
         self.fund = FundBalance()
         self.perp = PerpetualBalance()
         self.std = StandardBalance()
+        self.mkinfo = MarketInfo()
 
         self.commands = {
             "fund balance": self.fundBalance,
@@ -18,21 +20,22 @@ class UserSocket:
             "perp up": self.perpUP,
             "perp rp": self.perpRP,
             "perp balance": self.perpFreeBalance,
-            "std balance": self.stdBalance,
-            "std up": self.stdUP,
             "std total": self.stdTotal,
+            "std up": self.stdUP,
+            "std balance": self.stdBalance,
+            # "contract info": self.
             "quit": self.quit
         }
 
         self.descriptions = {
             "fund balance": "Get fund balance",
-            "perp total": "Get perpetual total balance",
-            "perp up": "Get perpetual unrealized profit",
-            "perp rp": "Get perpetual realized profit",
-            "perp balance": "Get perpetual free balance",
-            "std balance": "Get standard balance",
-            "std up": "Get standard unrealized profit",
-            "std total": "Get standard total balance",
+            "perp total/up/rp/balance": "Get perpetual total balance/unrealized profit/realized profit/balance",
+            # "perp up": "Get perpetual unrealized profit",
+            # "perp rp": "Get perpetual realized profit",
+            # "perp balance": "Get perpetual free balance",
+            "std total/up/balance": "Get perpetual total balance/unrealized profit/balance",
+            # "std up": "Get standard unrealized profit",
+            # "std total": "Get standard total balance",
             "quit": "Quit"
         }
 
@@ -83,18 +86,23 @@ class UserSocket:
         total = self.std.getStdTotal()
         print(f"Standard Total Balance: {total} USDT")
 
+    # def mkinfo(self):
+    #     print(f"Latest Price of {}")
+
     def quit(self):
         print("Goodbye")
         exit()
 
+    # def ()
+
     def print_commands(self):
-        print("*" * 56)
+        print("*" * 103)
         for command, description in self.descriptions.items():
             # Truncate the command if it is too long and adjust the spacing
-            fixedLengthCommand = (command[:10]) if len(command) > 15 else command.ljust(16)
-            fixed_length_description = (description[:29]) if len(description) > 31 else description.ljust(32)
+            fixedLengthCommand = (command[:24]) if len(command) > 24 else command.ljust(25)
+            fixed_length_description = (description[:65]) if len(description) > 69 else description.ljust(70)
             print(f"* {fixedLengthCommand} -> {fixed_length_description} *")
-        print("*" * 56)
+        print("*" * 103)
 
     def user_input(self):
         while True:

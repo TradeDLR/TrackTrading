@@ -2,7 +2,7 @@ from accountinfo.apiUtils import BingxAPI
 import time
 import datetime
 
-class marketinfo:
+class MarketInfo:
     def __init__(self):
         self.bingxAPI = BingxAPI()
 
@@ -86,18 +86,18 @@ class marketinfo:
 
 
 
-mar = marketinfo()
+mar = MarketInfo()
 coin = "BTC"
 currentTime = int(time.time() * 1000)
 fiveSecondAgo = currentTime - 5000
 
 # print("1", mar.getContractInfo("BTC"))
-print("2", mar.getLatestPrice(coin))
-print("3", mar.getMarketDepth(coin, 5))
-print("4", mar.getLatestTrade(coin, limit=1))
-print("5", mar.getCurrentFundingRate(coin))
-print("6", mar.getFundingRateHistory(coin, start=fiveSecondAgo, end=currentTime, limit=0))
-print("7", mar.getKLines(coin, "4h", start=fiveSecondAgo, end=currentTime, limit=3))
-print("8", mar.getOpenInterest(coin))
-print("9", mar.getTicker(coin))
-print("10", mar.getBookTicker(coin))
+# print("2", mar.getLatestPrice(coin))
+# print("3", mar.getMarketDepth(coin, 5))
+# print("4", mar.getLatestTrade(coin, limit=1))
+# print("5", mar.getCurrentFundingRate(coin))
+# print("6", mar.getFundingRateHistory(coin, start=fiveSecondAgo, end=currentTime, limit=0))
+# print("7", mar.getKLines(coin, "4h", start=fiveSecondAgo, end=currentTime, limit=3))
+# print("8", mar.getOpenInterest(coin))
+# print("9", mar.getTicker(coin))
+# print("10", mar.getBookTicker(coin))
