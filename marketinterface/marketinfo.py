@@ -54,17 +54,17 @@ class marketinfo:
 
 
 mar = marketinfo()
-coin = "BTC"
+crypto_coin = "BTC"
 currentTime = int(time.time() * 1000)
 oneSecondAgo = currentTime - 1000
 
 # print("1", mar.getContractInfo("BTC"))
-print("2", mar.getLatestPrice("coin"))
-print("3", mar.getMarketDepth("coin", 5))
-print("4", mar.getLatestTrade("coin", limit=1))
-print("5", mar.getCurrentFundingRate("coin"))
-print("6", mar.getFundingRateHistory("coin", start=oneSecondAgo, end=currentTime, limit=0))
-print("7", mar.getKLines("coin", "4h", start=oneSecondAgo, end=currentTime, limit=3))
-print("8", mar.getOpenInterest("coin"))
-print("9", mar.getTicker("coin"))
-print("10", mar.getBookTicker("coin"))
+print("LatestPrice :", mar.getLatestPrice(crypto_coin))
+print("MarketDept :", mar.getMarketDepth(crypto_coin, 5))
+print("LatestTrade :", mar.getLatestTrade(crypto_coin, limit=1))
+print("CurrentFundingRate :", mar.getCurrentFundingRate(crypto_coin))
+print("FundingRateHistory :", mar.getFundingRateHistory(crypto_coin, start=oneSecondAgo, end=currentTime, limit=0))
+print("KLines :", mar.getKLines(crypto_coin, "4h", start=oneSecondAgo, end=currentTime, limit=3))
+print("OpenInterest :", mar.getOpenInterest(crypto_coin))
+print("Ticker :", mar.getTicker(crypto_coin))
+print("BookTicker :", mar.getBookTicker(crypto_coin))
