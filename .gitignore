@@ -25,4 +25,5 @@ test.py
 *.log
 *.tmp
 
+.vscode
 .DS_Store
