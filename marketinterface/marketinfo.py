@@ -22,13 +22,15 @@ class marketinfo:
         return self.fetchMarketData("v2/quote/contracts", coin)
 
     def getLatestPrice(self, coin: str):
-        return self.fetchMarketData("v2/quote/price", coin)
+        return self.fetchMarketData("v2/quote/price", coin).get("data", {}).get("price", "")
 
     def getMarketDepth(self, coin: str, limit: int = 0):  # limit: len=0|oneof=5 10 20 50 100 500 1000
-        return self.fetchMarketData("v2/quote/depth", coin, limit=limit)
+        return self.fetchMarketData("v2/quote/depth", coin, limit=limit).get("data", {}).get("bids", [])
 
-    def getLatestTradingPair(self, coin: str, limit: int = 1):
-        return self.fetchMarketData("v2/quote/trades", coin, limit=limit)
+    def getLatestTrade(self, coin: str, limit: int = 1):
+        price = self.fetchMarketData("v2/quote/trades", coin, limit=limit)#.get("data", {}).get("price", "")
+        # qty = self.fetchMarketData("v2/quote/trades", coin, limit=limit).get("data", {}).get("qty", "")
+        return price
 
     def getCurrentFundingRate(self, coin: str):
         return self.fetchMarketData("v2/quote/premiumIndex", coin)
@@ -50,6 +52,7 @@ class marketinfo:
 
 
 
+
 mar = marketinfo()
 
 currentTime = int(time.time() * 1000)
@@ -58,7 +61,7 @@ oneSecondAgo = currentTime - 1000
 # print("1", mar.getContractInfo("BTC"))
 print("2", mar.getLatestPrice("BTC"))
 print("3", mar.getMarketDepth("BTC", 5))
-print("4", mar.getLatestTradingPair("BTC", limit=1))
+print("4", mar.getLatestTrade("BTC", limit=1))
 print("5", mar.getCurrentFundingRate("BTC"))
 print("6", mar.getFundingRateHistory("BTC", start=oneSecondAgo, end=currentTime, limit=0))
 print("7", mar.getKLines("BTC", "4h", start=oneSecondAgo, end=currentTime, limit=3))
