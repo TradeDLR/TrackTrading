@@ -10,12 +10,12 @@ class MarketInfoSocket:
             "price": self.LatestPrice,
             "depth": self.MarketDepth,
             "trade": self.LatestTrade,
-            "funding_rate": self.CurrentFundingRate,
-            "funding_history": self.FundingRateHistory,
+            "funding rate": self.CurrentFundingRate,
+            "funding history": self.FundingRateHistory,
             "kline": self.KLines,
             "interest": self.OpenInterest,
             "ticker": self.Ticker,
-            "book_ticker": self.BookTicker,
+            "book ticker": self.BookTicker,
             "quit": self.quit
         }
 
@@ -24,12 +24,12 @@ class MarketInfoSocket:
             "price": "Get latest price",
             "depth": "Get market depth",
             "trade": "Get latest trade",
-            "funding_rate": "Get current funding rate",
-            "funding_history": "Get funding rate history",
+            "funding rate": "Get current funding rate",
+            "funding history": "Get funding rate history",
             "kline": "Get K-lines",
             "interest": "Get open interest",
             "ticker": "Get ticker",
-            "book_ticker": "Get book ticker",
+            "book ticker": "Get book ticker",
             "quit": "Quit"
         }
 
