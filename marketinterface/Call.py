@@ -1,9 +1,9 @@
-from marketinfo import marketinfo
+from marketinterface import marketinfo
 import time
 
 class UserSocket:
     def __init__(self):
-        self.mar = marketinfo()
+        self.mar = marketinfo.MarketInfo()
 
 
         self.commands = {

@@ -88,18 +88,18 @@ class MarketInfo:
 
 
 
-mar = Marketinfo()
+mar = MarketInfo()
 crypto_coin = "BTC"
 currentTime = int(time.time() * 1000)
 fiveSecondAgo = currentTime - 5000
 
 # print("1", mar.getContractInfo("BTC"))
-print("LatestPrice", mar.getLatestPrice("crypto_coin"))
-print("MarketDept", mar.getMarketDepth("crypto_coin", 5))
-print("LatestTrade", mar.getLatestTrade("crypto_coin", limit=1))
-print("CurrentFundingRate", mar.getCurrentFundingRate("crypto_coin"))
-print("FundingRateHistory", mar.getFundingRateHistory("crypto_coin", start=fiveSecondAgo, end=currentTime, limit=0))
-print("KLines", mar.getKLines("crypto_coin", "4h", start=fiveSecondAgo, end=currentTime, limit=3))
-print("OpenInterest", mar.getOpenInterest("crypto_coin"))
-print("Ticker", mar.getTicker("crypto_coin"))
-print("BookTicker", mar.getBookTicker("crypto_coin"))
+# print("LatestPrice", mar.getLatestPrice("crypto_coin"))
+# print("MarketDept", mar.getMarketDepth("crypto_coin", 5))
+# print("LatestTrade", mar.getLatestTrade("crypto_coin", limit=1))
+# print("CurrentFundingRate", mar.getCurrentFundingRate("crypto_coin"))
+# print("FundingRateHistory", mar.getFundingRateHistory("crypto_coin", start=fiveSecondAgo, end=currentTime, limit=0))
+# print("KLines", mar.getKLines("crypto_coin", "4h", start=fiveSecondAgo, end=currentTime, limit=3))
+# print("OpenInterest", mar.getOpenInterest("crypto_coin"))
+# print("Ticker", mar.getTicker("crypto_coin"))
+# print("BookTicker", mar.getBookTicker("crypto_coin"))
