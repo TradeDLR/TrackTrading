@@ -1,8 +1,13 @@
-from FundBalance import FundBalance
-from PerpetualBalance import PerpetualBalance
-from StandardBalance import StandardBalance
-from csv_xlsx import AssetWriter
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+
+from accountinfo.FundBalance import FundBalance
+from accountinfo.PerpetualBalance import PerpetualBalance
+from accountinfo.StandardBalance import StandardBalance
+from accountinfo.csv_xlsx import AssetWriter
 from datetime import datetime
+
 class MainExecutor:
     @staticmethod
     def run():

@@ -1,4 +1,4 @@
-from apiUtils import BingxAPI
+from .apiUtils import BingxAPI
 
 class StandardBalance:
     def __init__(self):
