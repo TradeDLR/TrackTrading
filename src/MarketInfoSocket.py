@@ -1,10 +1,9 @@
 from marketinterface import marketinfo
 import time
 
-class UserSocket:
+class MarketInfoSocket:
     def __init__(self):
         self.mar = marketinfo.MarketInfo()
-
 
         self.commands = {
             "contract": self.ContractInfo,
@@ -153,5 +152,5 @@ class UserSocket:
                 print("Unknown coin. Please try again.")
 
 if __name__ == "__main__":
-    user = UserSocket()
+    user = MarketInfoSocket()
     user.user_input()

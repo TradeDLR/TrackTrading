@@ -5,14 +5,12 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from accountinfo.FundBalance import FundBalance
 from accountinfo.PerpetualBalance import PerpetualBalance
 from accountinfo.StandardBalance import StandardBalance
-from marketinterface.marketinfo import MarketInfo
 
-class UserSocket:
+class SelfInfoSocket:
     def __init__(self):
         self.fund = FundBalance()
         self.perp = PerpetualBalance()
         self.std = StandardBalance()
-        self.mkinfo = MarketInfo()
 
         self.commands = {
             "fund balance": self.fundBalance,
@@ -23,7 +21,6 @@ class UserSocket:
             "std total": self.stdTotal,
             "std up": self.stdUP,
             "std balance": self.stdBalance,
-            # "contract info": self.
             "quit": self.quit
         }
 
@@ -116,5 +113,5 @@ class UserSocket:
                 print("Unknown command. Please try again.")
 
 if __name__ == "__main__":
-    user = UserSocket()
+    user = SelfInfoSocket()
     user.user_input()
