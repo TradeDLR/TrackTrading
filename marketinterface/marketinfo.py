@@ -1,3 +1,5 @@
+#https://bingx-api.github.io/docs/#/swapV2/trade-api.html%23Trade%20order%20test
+
 from accountinfo.apiUtils import BingxAPI
 import time
 
@@ -63,7 +65,7 @@ print("LatestPrice :", mar.getLatestPrice(crypto_coin))
 print("MarketDept :", mar.getMarketDepth(crypto_coin, 5))
 print("LatestTrade :", mar.getLatestTrade(crypto_coin, limit=1))
 print("CurrentFundingRate :", mar.getCurrentFundingRate(crypto_coin))
-print("FundingRateHistory :", mar.getFundingRateHistory(crypto_coin, start=oneSecondAgo, end=currentTime, limit=0))
+print("FundingRateHistory :", mar.getFundingRateHistory(crypto_coin, start=oneSecondAgo, end=currentTime, limit=1))
 print("KLines :", mar.getKLines(crypto_coin, "4h", start=oneSecondAgo, end=currentTime, limit=3))
 print("OpenInterest :", mar.getOpenInterest(crypto_coin))
 print("Ticker :", mar.getTicker(crypto_coin))
