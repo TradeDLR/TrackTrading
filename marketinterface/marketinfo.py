@@ -88,10 +88,10 @@ class MarketInfo:
 
 
 
-mar = MarketInfo()
-crypto_coin = "BTC"
-currentTime = int(time.time() * 1000)
-fiveSecondAgo = currentTime - 5000
+# mar = MarketInfo()
+# crypto_coin = "BTC"
+# currentTime = int(time.time() * 1000)
+# fiveSecondAgo = currentTime - 5000
 
 # print("1", mar.getContractInfo("BTC"))
 # print("LatestPrice", mar.getLatestPrice("crypto_coin"))
