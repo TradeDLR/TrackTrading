@@ -2,7 +2,7 @@
 # import os
 # sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-from TrackTradingBackend.marketinterface import marketinfo
+from backend.marketinterface import marketinfo
 import time
 
 class MarketInfoSocket:

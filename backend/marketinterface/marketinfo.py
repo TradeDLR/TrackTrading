@@ -1,6 +1,6 @@
 #https://bingx-api.github.io/docs/#/swapV2/trade-api.html%23Trade%20order%20test
 
-from TrackTradingBackend.accountinfo.apiUtils import BingxAPI
+from backend.accountinfo.apiUtils import BingxAPI
 import time
 import datetime
 

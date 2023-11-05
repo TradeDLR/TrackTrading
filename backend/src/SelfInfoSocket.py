@@ -2,9 +2,9 @@
 # import os
 # sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-from TrackTradingBackend.accountinfo.FundBalance import FundBalance
-from TrackTradingBackend.accountinfo.PerpetualBalance import PerpetualBalance
-from TrackTradingBackend.accountinfo.StandardBalance import StandardBalance
+from backend.accountinfo.FundBalance import FundBalance
+from backend.accountinfo.PerpetualBalance import PerpetualBalance
+from backend.accountinfo.StandardBalance import StandardBalance
 
 class SelfInfoSocket:
     def __init__(self):
