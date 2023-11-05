@@ -1,13 +1,15 @@
 import pandas as pd
 import csv
+import os
 
 class AssetWriter:
-    def __init__(self, csvFileName='result/asset.csv', excelFileName='result/asset.xlsx'):
+    def __init__(self, csvFileName='TrackTradingBackend/result/asset.csv', excelFileName='TrackTradingBackend/result/asset.xlsx'):
         self.csvFileName = csvFileName
         self.excelFileName = excelFileName
 
     def writeTotalAssetCSV(self, balances, fundTotal):
         with open(self.csvFileName, 'w', newline='') as csvfile:
+            os.makedirs(os.path.dirname(self.csvFileName), exist_ok=True)
             writer = csv.writer(csvfile, delimiter=',')
             writer.writerow(["asset-currency", "balance", "free", "locked", "value-in-usdt"])
             for balance in balances:
