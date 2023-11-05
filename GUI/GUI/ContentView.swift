@@ -6,26 +6,30 @@
 //
 
 import SwiftUI
-import PythonKit
+//import PythonKit
 
-let sys = Python.import("sys")
+//let sys = Python.import("sys")
+//sys.path.append("../")
 
 
 struct ContentView: View {
     var body: some View {
         NavigationView {
             List {
+                NavigationLink(destination: MainPage()) {
+                    Label("Main Page", systemImage: "star")
+                }
+                
                 NavigationLink(destination: AccountInfoView()) {
                     Label("Account Information", systemImage: "person.crop.circle")
                 }
+                
                 NavigationLink(destination: TradingInterfaceView()) {
                     Label("Trading Interface", systemImage: "chart.bar")
                 }
+                
                 NavigationLink(destination: MarketInfoView()) {
                     Label("Market Information", systemImage: "newspaper")
-                }
-                NavigationLink(destination: MainPage()) {
-                    Label("Main Page", systemImage: "star")
                 }
             }
             .listStyle(SidebarListStyle())

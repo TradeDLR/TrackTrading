@@ -1,13 +1,13 @@
 //
-//  TrackTradeGUIUITestsLaunchTests.swift
-//  TrackTradeGUIUITests
+//  guiUITestsLaunchTests.swift
+//  guiUITests
 //
 //  Created by DanielYuan on 2023/11/5.
 //
 
 import XCTest
 
-final class TrackTradeGUIUITestsLaunchTests: XCTestCase {
+final class guiUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true

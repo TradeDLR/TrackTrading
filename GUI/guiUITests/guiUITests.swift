@@ -1,13 +1,13 @@
 //
-//  TrackTradeGUIUITests.swift
-//  TrackTradeGUIUITests
+//  guiUITests.swift
+//  guiUITests
 //
 //  Created by DanielYuan on 2023/11/5.
 //
 
 import XCTest
 
-final class TrackTradeGUIUITests: XCTestCase {
+final class guiUITests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
