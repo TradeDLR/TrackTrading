@@ -1,0 +1,24 @@
+{
+	"BUILD_DIR" : "/Users/danielyuan/PycharmProjects/TrackTrading/frontend/frontend_autogen",
+	"CMAKE_BINARY_DIR" : "/Users/danielyuan/PycharmProjects/TrackTrading/frontend",
+	"CMAKE_CURRENT_BINARY_DIR" : "/Users/danielyuan/PycharmProjects/TrackTrading/frontend",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/Users/danielyuan/PycharmProjects/TrackTrading/frontend",
+	"CMAKE_SOURCE_DIR" : "/Users/danielyuan/PycharmProjects/TrackTrading/frontend",
+	"INCLUDE_DIR" : "/Users/danielyuan/PycharmProjects/TrackTrading/frontend/frontend_autogen/include",
+	"INPUTS" : 
+	[
+		"/Users/danielyuan/PycharmProjects/TrackTrading/frontend/icons/cross.png",
+		"/Users/danielyuan/PycharmProjects/TrackTrading/frontend/icons/burger.png",
+		"/Users/danielyuan/PycharmProjects/TrackTrading/frontend/icons/arrow.png"
+	],
+	"LOCK_FILE" : "/Users/danielyuan/PycharmProjects/TrackTrading/frontend/CMakeFiles/frontend_autogen.dir/AutoRcc_resources_EWIEGA46WW_Lock.lock",
+	"MULTI_CONFIG" : false,
+	"OPTIONS" : [ "-name", "resources" ],
+	"OUTPUT_CHECKSUM" : "EWIEGA46WW",
+	"OUTPUT_NAME" : "qrc_resources.cpp",
+	"RCC_EXECUTABLE" : "/opt/homebrew/opt/qt@5/bin/rcc",
+	"RCC_LIST_OPTIONS" : [ "--list" ],
+	"SETTINGS_FILE" : "/Users/danielyuan/PycharmProjects/TrackTrading/frontend/CMakeFiles/frontend_autogen.dir/AutoRcc_resources_EWIEGA46WW_Used.txt",
+	"SOURCE" : "/Users/danielyuan/PycharmProjects/TrackTrading/frontend/resources.qrc",
+	"VERBOSITY" : 0
+}
