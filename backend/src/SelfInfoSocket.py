@@ -1,10 +1,10 @@
-import sys
-import os
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+# import sys
+# import os
+# sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-from accountinfo.FundBalance import FundBalance
-from accountinfo.PerpetualBalance import PerpetualBalance
-from accountinfo.StandardBalance import StandardBalance
+from backend.accountinfo.FundBalance import FundBalance
+from backend.accountinfo.PerpetualBalance import PerpetualBalance
+from backend.accountinfo.StandardBalance import StandardBalance
 
 class SelfInfoSocket:
     def __init__(self):
