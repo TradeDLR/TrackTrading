@@ -95,8 +95,9 @@ class MarketInfoSocket:
         endTime = currentTime - 10000000
         limit = int(input("Limit : "))
         kline = self.mar.getKLines(the_coin, options, endTime, currentTime, limit)
-        if kline is not None:
-            print(f" {kline} ")
+        if kline is not None and len(kline) > 0:
+            for k in kline:
+                print(f"Open: {k[0]}, Close: {k[1]}, High: {k[2]}, Low: {k[3]}, Volume: {k[4]}, Time: {k[5]}")
         else:
             print("Failed to get kline.")
         
@@ -112,7 +113,13 @@ class MarketInfoSocket:
         the_coin = self.coin_input()
         the_ticker = self.mar.getTicker(the_coin)
         if the_ticker is not None:
-            print(f" {the_ticker} ")
+            print(f"Price Change: {the_ticker[0]}")
+            print(f"Price Change Percent: {the_ticker[1]}")
+            print(f"Last Price: {the_ticker[2]}")
+            print(f"Last Quantity: {the_ticker[3]}")
+            print(f"High Price: {the_ticker[4]}")
+            print(f"Low Price: {the_ticker[5]}")
+            print(f"Open Price: {the_ticker[6]}")
         else:
             print("Failed to get ticker.")
 
@@ -120,7 +127,10 @@ class MarketInfoSocket:
         the_coin = self.coin_input()
         book_ticker = self.mar.getBookTicker(the_coin)
         if book_ticker is not None:
-            print(f" {book_ticker} ")
+            print(f"purchasePrice: {book_ticker[0]}")
+            print(f"purchaseQty: {book_ticker[1]}")
+            print(f"sellPrice: {book_ticker[2]}")
+            print(f"sellQty: {book_ticker[3]}")
         else:
             print("Failed to get ticker.")
 
