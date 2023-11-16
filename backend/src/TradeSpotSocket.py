@@ -1,11 +1,11 @@
-from backend.trade import spot
+from backend.market.spot import Spot
+from backend.utils.utilities import PrintCommand
 import time
 
-class TradeSpotSocket:
+class TradeSpotSocket(Spot, PrintCommand):
     def __init__(self):
-        self.tsp = spot.Spot()
-
-        self.commands = {
+        Spot.__init__(self)
+        commands = {
             "create": self.createOrder,
             "cancel": self.cancelOrder,
             "query": self.queryOrder,
@@ -14,7 +14,7 @@ class TradeSpotSocket:
             "quit": self.quit
         }
 
-        self.descriptions = {
+        descriptions = {
             "create": "Create a new order",
             "cancel": "Cancel an existing order",
             "query": "Query details of an order",
@@ -23,9 +23,11 @@ class TradeSpotSocket:
             "quit": "Quit"
         }
 
+        PrintCommand.__init__(self, commands, descriptions)
+
     # Define methods for each command
     def createOrder(self):
-        the_coin = self.coin_input()
+        coin = self.coinInput()
         trade = str(input("Buy or Sell: ").upper())
 
         if trade not in ["BUY", "SELL"]:
@@ -40,19 +42,19 @@ class TradeSpotSocket:
         if deal == "MARKET":
             if trade == "BUY":
                 quoteOrderQty = float(input("Enter quote order quantity: "))
-                order = self.tsp.toCreateOrder(the_coin, trade, deal, quoteOrderQty=quoteOrderQty)
+                order = self.toCreateOrder(coin, trade, deal, quoteOrderQty=quoteOrderQty)
             else:  # SELL
                 quantity = float(input("Enter quantity: "))
-                order = self.tsp.toCreateOrder(the_coin, trade, deal, quantity=quantity)
+                order = self.toCreateOrder(coin, trade, deal, quantity=quantity)
 
         elif deal == "LIMIT":
             price = float(input(f"Enter price to {trade.lower()}: "))
             if trade == "BUY":
                 quoteOrderQty = float(input("Enter quote order quantity: "))
-                order = self.tsp.toCreateOrder(the_coin, trade, deal, price, quoteOrderQty=quoteOrderQty)
+                order = self.toCreateOrder(coin, trade, deal, price, quoteOrderQty=quoteOrderQty)
             else:  # SELL
                 quantity = float(input("Enter quantity: "))
-                order = self.tsp.toCreateOrder(the_coin, trade, deal, price, quantity=quantity)
+                order = self.toCreateOrder(coin, trade, deal, price, quantity=quantity)
 
         if order is not None and len(order) > 0:
             print(f"Order created successfully. {order}")
@@ -60,66 +62,46 @@ class TradeSpotSocket:
             print("Failed to create order.")
 
     def cancelOrder(self):
-        the_coin = self.coin_input()
+        coin = self.coinInput()
         orderId = str(input("Enter order id: "))
-        order = self.tsp.toCancelOrder(the_coin, orderId)
+        order = self.toCancelOrder(coin, orderId)
 
         print(f"Order canceled successfully. {order}")
 
     def queryOrder(self, *args):
-        the_coin = self.coin_input()
+        coin = self.coinInput()
         orderId = str(input("Enter order id: "))
-        order = self.tsp.toQueryOrder(the_coin, orderId)
+        order = self.toQueryOrder(coin, orderId)
 
         print(f"Your order detail: {order}")
 
     def queryOpenOrders(self, *args):
-        the_coin = self.coin_input()
-        order = self.tsp.toQueryOpenOrders(the_coin)
+        coin = self.coinInput()
+        order = self.toQueryOpenOrders(coin)
 
         print(f"Your open orders: {order}")
 
     def orderHistory(self, *args):
-        the_coin = self.coin_input()
-        end_time = int(time.time() * 1000)  # Current time in milliseconds
+        coin = self.coinInput()
+        endTime = int(time.time() * 1000)  # Current time in milliseconds
         days = int(input("How many days ago: "))
-        start_time = end_time - (days * 24 * 60 * 60 * 1000)  # 7 days ago in milliseconds
-        order = self.tsp.getOrderHistory(the_coin, start_time, end_time)
+        startTime = endTime - (days * 24 * 60 * 60 * 1000)  # 7 days ago in milliseconds
+        order = self.getOrderHistory(coin, startTime, endTime)
         
         print(f"Your order history: {order}")
-    
-    def quit(self):
-        print("Goodbye")
-        exit()
 
-    def print_commands(self):
-        print("*" * 56)
-        for command, description in self.descriptions.items():
-            # Truncate the command if it is too long and adjust the spacing
-            fixedLengthCommand = (command[:10]) if len(command) > 15 else command.ljust(16)
-            fixed_length_description = (description[:29]) if len(description) > 31 else description.ljust(32)
-            print(f"* {fixedLengthCommand} -> {fixed_length_description} *")
-        print("*" * 56)
-
-    def user_input(self):
+    def coinInput(self):
         while True:
-            self.print_commands()
-            user_command = input("Enter command: ").lower()
-            if user_command == 'quit':
-                break
-            if user_command in self.commands:
-                self.commands[user_command]()
-            else:
-                print("Unknown command. Please try again.")
-
-    def coin_input(self):
-        while True:
-            crypto_coin = str(input("Enter coin: ").upper())
-            if crypto_coin:
-                return crypto_coin
+            coin = str(input("Enter coin: ").upper())
+            if coin:
+                return coin
             else:
                 print("Unknown coin. Please try again.")
 
-if __name__ == "__main__":
-    user = TradeSpotSocket()
-    user.user_input()
+def getTradeSpotSocket():
+    return TradeSpotSocket()
+
+
+# if __name__ == "__main__":
+#     user = TradeSpotSocket()
+#     user.userInput()

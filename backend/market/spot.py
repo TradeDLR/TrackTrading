@@ -1,4 +1,4 @@
-from backend.accountinfo.apiUtils import BingxAPI
+from backend.utils.apiUtils import BingxAPI
 import config
 import time
 
