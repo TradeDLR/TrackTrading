@@ -1,6 +1,6 @@
 #https://bingx-api.github.io/docs/#/swapV2/trade-api.html%23Trade%20order%20test
 
-from backend.accountinfo.apiUtils import BingxAPI
+from backend.utils.apiUtils import BingxAPI
 import time
 import datetime
 
@@ -51,40 +51,48 @@ class MarketInfo:
         return self.fetchMarketData("v2/quote/fundingRate", coin, start=start, end=end, limit=limit)
 
     def getKLines(self, coin: str, interval: str, start: int = 0, end: int = 0, limit: int = 0):
+        #data = self.fetchMarketData("v3/quote/klines", coin, interval=interval, start=start, end=end, limit=limit).get('data', [])
+        #for kbar in data:
+        #    open = kbar.get('open')
+        #    close = kbar.get('close')
+        #    high = kbar.get('high')
+        #    low = kbar.get('low')
+        #    volume = kbar.get('volume')
+        #    time = kbar.get('time')
+        #    timestamp_s = time / 1000
+        #    date = datetime.datetime.fromtimestamp(timestamp_s)
+
+        #return open, close, high, low, volume, date
         data = self.fetchMarketData("v3/quote/klines", coin, interval=interval, start=start, end=end, limit=limit).get('data', [])
-        for kbar in data:
-            open = kbar.get('open')
-            close = kbar.get('close')
-            high = kbar.get('high')
-            low = kbar.get('low')
-            volume = kbar.get('volume')
-            time = kbar.get('time')
-            timestamp_s = time / 1000
-            date = datetime.datetime.fromtimestamp(timestamp_s)
-
-        return open, close, high, low, volume, date
-
+        fields = ["open", "close", "high", "low", "volume", "time"]
+        return [tuple(kbar.get(field, '') if field != 'time' else datetime.datetime.fromtimestamp(kbar.get(field, 0) / 1000) for field in fields) for kbar in data]
+    
     def getOpenInterest(self, coin: str):
         return self.fetchMarketData("v2/quote/openInterest", coin).get('data', {}).get('openInterest', '')
 
     def getTicker(self, coin: str):
-        priceChange = self.fetchMarketData("v2/quote/ticker", coin).get('data', {}).get('priceChange', '')
-        priceChangePercent = self.fetchMarketData("v2/quote/ticker", coin).get('data', {}).get('priceChangePercent', '')
-        lastPrice = self.fetchMarketData("v2/quote/ticker", coin).get('data', {}).get('lastPrice', '')
-        lastQty = self.fetchMarketData("v2/quote/ticker", coin).get('data', {}).get('lastQty', '')
-        highPrice = self.fetchMarketData("v2/quote/ticker", coin).get('data', {}).get('highPrice', '')
-        lowPrice = self.fetchMarketData("v2/quote/ticker", coin).get('data', {}).get('lowPrice', '')
-        openPrice = self.fetchMarketData("v2/quote/ticker", coin).get('data', {}).get('openPrice', '')
-        return priceChange, priceChangePercent, lastPrice, lastQty, highPrice, lowPrice, openPrice
+        #priceChange = self.fetchMarketData("v2/quote/ticker", coin).get('data', {}).get('priceChange', '')
+        #priceChangePercent = self.fetchMarketData("v2/quote/ticker", coin).get('data', {}).get('priceChangePercent', '')
+        #lastPrice = self.fetchMarketData("v2/quote/ticker", coin).get('data', {}).get('lastPrice', '')
+        #lastQty = self.fetchMarketData("v2/quote/ticker", coin).get('data', {}).get('lastQty', '')
+        #highPrice = self.fetchMarketData("v2/quote/ticker", coin).get('data', {}).get('highPrice', '')
+        #lowPrice = self.fetchMarketData("v2/quote/ticker", coin).get('data', {}).get('lowPrice', '')
+        #openPrice = self.fetchMarketData("v2/quote/ticker", coin).get('data', {}).get('openPrice', '')
+        #return priceChange, priceChangePercent, lastPrice, lastQty, highPrice, lowPrice, openPrice
+        response = self.fetchMarketData("v2/quote/ticker", coin).get('data', {})
+        fields = ["priceChange", "priceChangePercent", "lastPrice", "lastQty", "highPrice", "lowPrice", "openPrice"]
+        return tuple(response.get(field, '') for field in fields)
 
     def getBookTicker(self, coin: str):
-        purchasePrice = self.fetchMarketData("v2/quote/bookTicker", coin).get("data", {}).get("book_ticker", {}).get("bid_price", '')
-        purchaseQty = self.fetchMarketData("v2/quote/bookTicker", coin).get("data", {}).get("book_ticker", {}).get("bid_qty", '')
-        sellPrice = self.fetchMarketData("v2/quote/bookTicker", coin).get("data", {}).get("book_ticker", {}).get("ask_price", '')
-        sellQty = self.fetchMarketData("v2/quote/bookTicker", coin).get("data", {}).get("book_ticker", {}).get("ask_qty", '')
+        #purchasePrice = self.fetchMarketData("v2/quote/bookTicker", coin).get("data", {}).get("book_ticker", {}).get("bid_price", '')
+        #purchaseQty = self.fetchMarketData("v2/quote/bookTicker", coin).get("data", {}).get("book_ticker", {}).get("bid_qty", '')
+        #sellPrice = self.fetchMarketData("v2/quote/bookTicker", coin).get("data", {}).get("book_ticker", {}).get("ask_price", '')
+        #sellQty = self.fetchMarketData("v2/quote/bookTicker", coin).get("data", {}).get("book_ticker", {}).get("ask_qty", '')
 
-        return purchasePrice, purchaseQty, sellPrice, sellQty
-
+        #return purchasePrice, purchaseQty, sellPrice, sellQty
+        response = self.fetchMarketData("v2/quote/bookTicker", coin).get("data", {}).get("book_ticker", {})
+        fields = ["bid_price", "bid_qty", "ask_price", "ask_qty"]
+        return tuple(response.get(field, '') for field in fields)
 
 
 

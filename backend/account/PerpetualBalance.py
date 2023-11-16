@@ -1,4 +1,4 @@
-from .apiUtils import BingxAPI
+from backend.utils.apiUtils import BingxAPI
 
 class PerpetualBalance:
     def __init__(self):

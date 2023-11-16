@@ -1,18 +1,20 @@
+from backend.account.FundBalance import FundBalance
+from backend.account.PerpetualBalance import PerpetualBalance
+from backend.account.StandardBalance import StandardBalance
+from backend.utils.utilities import PrintCommand
 import sys
 import os
+
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-from backend.accountinfo.FundBalance import FundBalance
-from backend.accountinfo.PerpetualBalance import PerpetualBalance
-from backend.accountinfo.StandardBalance import StandardBalance
 
-class SelfInfoSocket:
+class SelfInfoSocket(FundBalance, PerpetualBalance, StandardBalance, PrintCommand):
     def __init__(self):
-        self.fund = FundBalance()
-        self.perp = PerpetualBalance()
-        self.std = StandardBalance()
+        FundBalance.__init__(self)
+        PerpetualBalance.__init__(self)
+        StandardBalance.__init__(self)
 
-        self.commands = {
+        commands = {
             "fund balance": self.fundBalance,
             "perp total": self.perpTotal,
             "perp up": self.perpUP,
@@ -24,7 +26,7 @@ class SelfInfoSocket:
             "quit": self.quit
         }
 
-        self.descriptions = {
+        descriptions = {
             "fund balance": "Get fund balance",
             "perp total/up/rp/balance": "Get perpetual total balance/unrealized profit/realized profit/balance",
             # "perp up": "Get perpetual unrealized profit",
@@ -35,83 +37,82 @@ class SelfInfoSocket:
             # "std total": "Get standard total balance",
             "quit": "Quit"
         }
+        PrintCommand.__init__(self, commands, descriptions)
 
     def fundBalance(self):
-        fund_total = self.fund.getFundBalance()  # Directly call the getFundBalance method
-        if fund_total is not None:
-            print(f"Total Fund Balance: {fund_total} USDT")
+        fundTotal = self.getFundBalance()  # Directly call the getFundBalance method
+        if fundTotal is not None:
+            print(f"Total Fund Balance: {fundTotal} USDT")
         else:
             print("Failed to fetch fund balance.")
 
     def perpTotal(self):
-        if self.perp.updatePerpBalance():
-            total = self.perp.getPerpTotal()
+        if self.updatePerpBalance():
+            total = self.getPerpTotal()
             print(f"Perpetual Total Balance: {total} USDT")
         else:
             print("Failed to fetch perpetual balance.")
 
     def perpUP(self):
-        if self.perp.updatePerpBalance():
-            unrealized_profit = self.perp.getPerpUP()
-            print(f"Perpetual Unrealized Profit: {unrealized_profit} USDT")
+        if self.updatePerpBalance():
+            unrealizedProfit = self.getPerpUP()
+            print(f"Perpetual Unrealized Profit: {unrealizedProfit} USDT")
         else:
             print("Failed to fetch perpetual balance.")
 
     def perpRP(self):
-        if self.perp.updatePerpBalance():
-            realized_profit = self.perp.getPerpRP()
-            print(f"Perpetual Realized Profit: {realized_profit} USDT")
+        if self.updatePerpBalance():
+            realizedProfit = self.getPerpRP()
+            print(f"Perpetual Realized Profit: {realizedProfit} USDT")
         else:
             print("Failed to fetch perpetual balance.")
 
     def perpFreeBalance(self):
         if self.perp.updatePerpBalance():
-            free_balance = self.perp.getPerpAsset()
-            print(f"Perpetual Free Balance: {free_balance} USDT")
+            freeBalance = self.perp.getPerpAsset()
+            print(f"Perpetual Free Balance: {freeBalance} USDT")
         else:
             print("Failed to fetch perpetual balance.")
 
     def stdBalance(self):
-        balance = self.std.getStdBalance()
+        balance = self.getStdBalance()
         print(f"Standard Balance: {balance} USDT")
 
     def stdUP(self):
-        unrealized_profit = self.std.getStdUP()
-        print(f"Standard Unrealized Profit: {unrealized_profit} USDT")
+        unrealizedProfit = self.getStdUP()
+        print(f"Standard Unrealized Profit: {unrealizedProfit} USDT")
 
     def stdTotal(self):
-        total = self.std.getStdTotal()
+        total = self.getStdTotal()
         print(f"Standard Total Balance: {total} USDT")
 
     # def mkinfo(self):
     #     print(f"Latest Price of {}")
 
-    def quit(self):
-        print("Goodbye")
-        exit()
 
-    # def ()
-
-    def print_commands(self):
+    def printCommands(self):
         print("*" * 103)
         for command, description in self.descriptions.items():
             # Truncate the command if it is too long and adjust the spacing
             fixedLengthCommand = (command[:24]) if len(command) > 24 else command.ljust(25)
-            fixed_length_description = (description[:65]) if len(description) > 69 else description.ljust(70)
-            print(f"* {fixedLengthCommand} -> {fixed_length_description} *")
+            fixedLengthDescription = (description[:65]) if len(description) > 69 else description.ljust(70)
+            print(f"* {fixedLengthCommand} -> {fixedLengthDescription} *")
         print("*" * 103)
 
-    def user_input(self):
+    def userInput(self):
         while True:
-            self.print_commands()
-            user_command = input("Enter command: ").lower()
-            if user_command == 'quit':
+            self.printCommands()
+            userCommand = input("Enter command: ").lower()
+            if userCommand == 'quit':
                 break
-            if user_command in self.commands:
-                self.commands[user_command]()
+            if userCommand in self.commands:
+                self.commands[userCommand]()
             else:
                 print("Unknown command. Please try again.")
 
-if __name__ == "__main__":
-    user = SelfInfoSocket()
-    user.user_input()
+def getSelfInfoSocket():
+    return SelfInfoSocket()
+
+# if __name__ == "__main__":
+#     user = SelfInfoSocket()
+#     user.userInput()
