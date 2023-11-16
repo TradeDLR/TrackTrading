@@ -36,7 +36,6 @@ make -j$(nproc)
 ```
 or
 ```shell
-python3 accountinfo/Asset.py
-python3 accountinfo/Call.py
+python3 backend/src/UserInterface.py
 ```
 
