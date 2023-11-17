@@ -11,11 +11,11 @@ from backend.utils.utilities import PrintCommand
 class UserInterface(PrintCommand):
     def __init__(self):
         commands = {
-            "asset proof": self.assetProof,
-            "user info": self.userInfo,
-            "market info": self.marketInfo,
-            "spot trading": self.spotTrading,
-            "quit": self.quit
+            ("asset proof", "asset", "ap"): self.assetProof,
+            ("user info", "user", "ui"): self.userInfo,
+            ("market info", "market", "mi"): self.marketInfo,
+            ("spot trading", "spot", "st"): self.spotTrading,
+            ("quit", "Q"): self.quit
         }
 
         descriptions = {
@@ -38,6 +38,10 @@ class UserInterface(PrintCommand):
 
     def spotTrading(self):
         getTradeSpotSocket().userInput()
+
+    def quit(self):
+        print("Goodbye") 
+        exit()
 
 if __name__ == "__main__":
     user = UserInterface()

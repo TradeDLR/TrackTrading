@@ -6,12 +6,12 @@ class TradeSpotSocket(Spot, PrintCommand):
     def __init__(self):
         Spot.__init__(self)
         commands = {
-            "create": self.createOrder,
-            "cancel": self.cancelOrder,
-            "query": self.queryOrder,
-            "open": self.queryOpenOrders,
-            "history": self.orderHistory,
-            "quit": self.quit
+            ("create", "cr"): self.createOrder,
+            ("cancel", "ca"): self.cancelOrder,
+            ("query", "q"): self.queryOrder,
+            ("open", "o"): self.queryOpenOrders,
+            ("history", "h"): self.orderHistory
+            #"quit": self.quit
         }
 
         descriptions = {

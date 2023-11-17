@@ -12,17 +12,17 @@ class MarketInfoSocket(MarketInfo, PrintCommand):
         # super().__init__()  # Initialize the parent class (MarketInfo)
         MarketInfo.__init__(self)
         commands = {
-            "contract": self.contractInfo,
-            "price": self.latestPrice,
-            "depth": self.marketDepth,
-            "trade": self.latestTrade,
-            "funding rate": self.currentFundingRate,
-            "funding history": self.fundingRateHistory,
-            "kline": self.kLines,
-            "interest": self.openInterest,
-            "ticker": self.ticker,
-            "book ticker": self.bookTicker,
-            "quit": self.quit
+            ("contract", "c"): self.contractInfo,
+            ("price", "p"): self.latestPrice,
+            ("depth", "d"): self.marketDepth,
+            ("trade", "tr"): self.latestTrade,
+            ("funding rate", "fr"): self.currentFundingRate,
+            ("funding history", "fh"): self.fundingRateHistory,
+            ("kline", "k"): self.kLines,
+            ("interest", "i"): self.openInterest,
+            ("ticker", "ti"): self.ticker,
+            ("book ticker", "bt"): self.bookTicker
+            #("quit", "q"): self.quit
         }
 
         descriptions = {
