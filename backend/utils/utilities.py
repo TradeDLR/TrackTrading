@@ -4,13 +4,13 @@ class PrintCommand:
         self.descriptions = descriptions
 
     def printCommands(self):
-        print("~" * 103)
+        print("*" * 134)
         for command, description in self.descriptions.items():
             # Truncate the command if it is too long and adjust the spacing
-            fixedLengthCommand = (command[:24]) if len(command) > 24 else command.ljust(25)
-            fixedLengthDescription = (description[:65]) if len(description) > 69 else description.ljust(70)
-            print(f"\ {fixedLengthCommand} -> {fixedLengthDescription} /")
-        print("~" * 103)
+            fixedLengthCommand = (command[:50]) if len(command) > 50 else command.ljust(51)
+            fixedLengthDescription = (description[:75]) if len(description) > 75 else description.ljust(75)
+            print(f"| {fixedLengthCommand} -> {fixedLengthDescription} |")
+        print("*" * 134)
 
     def userInput(self):
         while True:
@@ -24,7 +24,7 @@ class PrintCommand:
                     command_executed = True
                     break
 
-            if userCommand in ('quit', 'Q'):
+            if userCommand in ('quit', 'Q', 'q'):
                 print("Returning to main menu...")
                 break
             elif not command_executed:

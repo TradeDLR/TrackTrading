@@ -1,14 +1,10 @@
-from accountinfo.apiUtils import BingxAPI
+from backend.utils.apiUtils import getBingxAPI
 import time
 import config
 
 class Futures:
-    APIURL = "https://open-api.bingx.com"
-    APIKEY = config.API_KEY
-    SECRETKEY = config.SECRET_KEY
-
     def __init__(self):
-        self.bingxAPI = BingxAPI()
+        self.bingxAPI = getBingxAPI()
 
     def futures(self, req: str, coin: str, type: str = None, side: str = None, positionSide: str = None, price: int = None, quantity: int = None, stopPrice: int = None):
         payload = {}

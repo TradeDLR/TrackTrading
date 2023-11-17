@@ -1,6 +1,6 @@
-from backend.account.FundBalance import FundBalance
-from backend.account.PerpetualBalance import PerpetualBalance
-from backend.account.StandardBalance import StandardBalance
+from backend.account.fundbalance import FundBalance
+from backend.account.perpetualbalance import PerpetualBalance
+from backend.account.standardbalance import StandardBalance
 from backend.utils.utilities import PrintCommand
 import sys
 import os
@@ -27,15 +27,15 @@ class SelfInfoSocket(FundBalance, PerpetualBalance, StandardBalance, PrintComman
         }
 
         descriptions = {
-            "fund balance": "Get fund balance",
-            "perp total/up/rp/balance": "Get perpetual total balance/unrealized profit/realized profit/balance",
+            "fund balance (fb)": "Get fund balance",
+            "perp total/up/rp/balance (pt / pu / pr / pb)": "Get perpetual total balance/unrealized profit/realized profit/balance",
             # "perp up": "Get perpetual unrealized profit",
             # "perp rp": "Get perpetual realized profit",
             # "perp balance": "Get perpetual free balance",
-            "std total/up/balance": "Get perpetual total balance/unrealized profit/balance",
+            "std total/up/balance (st / su / sb)": "Get perpetual total balance/unrealized profit/balance",
             # "std up": "Get standard unrealized profit",
             # "std total": "Get standard total balance",
-            "quit": "Quit"
+            "quit (Q or q)": "Quit"
         }
         PrintCommand.__init__(self, commands, descriptions)
 

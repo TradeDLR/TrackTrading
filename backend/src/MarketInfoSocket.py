@@ -3,14 +3,14 @@
 # import os
 # sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-from backend.market.Marketinfo import MarketInfo
+from backend.market.perpinfo import PerpInfo
 from backend.utils.utilities import PrintCommand
 import time
 
-class MarketInfoSocket(MarketInfo, PrintCommand):
+class MarketInfoSocket(PerpInfo, PrintCommand):
     def __init__(self):
-        # super().__init__()  # Initialize the parent class (MarketInfo)
-        MarketInfo.__init__(self)
+        # super().__init__()  # Initialize the parent class (PerpetualInfo)
+        PerpInfo.__init__(self)
         commands = {
             ("contract", "c"): self.contractInfo,
             ("price", "p"): self.latestPrice,
@@ -26,17 +26,17 @@ class MarketInfoSocket(MarketInfo, PrintCommand):
         }
 
         descriptions = {
-            "contract": "Get contract info",
-            "price": "Get latest price",
-            "depth": "Get market depth",
-            "trade": "Get latest trade",
-            "funding rate": "Get current funding rate",
-            "funding history": "Get funding rate history",
-            "kline": "Get K-lines",
-            "interest": "Get open interest",
-            "ticker": "Get ticker",
-            "book ticker": "Get book ticker",
-            "quit": "Quit"
+            "contract (c)": "Get contract info",
+            "price (p)": "Get latest price",
+            "depth (d)": "Get market depth",
+            "trade (tr)": "Get latest trade",
+            "funding rate (fr)": "Get current funding rate",
+            "funding history (fh)": "Get funding rate history",
+            "kline (k)": "Get K-lines",
+            "interest (i)": "Get open interest",
+            "ticker (ti)": "Get ticker",
+            "book ticker (bt)": "Get book ticker",
+            "quit (Q or q)": "Quit"
         }
 
         PrintCommand.__init__(self, commands, descriptions)
