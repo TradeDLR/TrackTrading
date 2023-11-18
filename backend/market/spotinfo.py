@@ -39,14 +39,14 @@ def getSpotInfo():
     return SpotInfo()
 
 
-spotinfo = SpotInfo()
-coin = ["BTC", "ETH"]
-# coin = "B"
-currentTime = int(time.time() * 1000)
-fiveSecondAgo = currentTime - 5000
+#spotinfo = SpotInfo()
+# coin = ["BTC", "ETH"]
+# # coin = "B"
+# currentTime = int(time.time() * 1000)
+# fiveSecondAgo = currentTime - 5000
 
-print(spotinfo.getQuerySymbols(coin))
-print(spotinfo.getTranscationRecords(coin))
-print(spotinfo.getDepthInfo(coin))
-print(spotinfo.getCandleChart(coin, "4h", startTime=fiveSecondAgo, endTime=currentTime, limit=3))
-print(spotinfo.getPrice(coin))
+# print(spotinfo.getQuerySymbols(coin))
+# print(spotinfo.getTranscationRecords(coin))
+# print(spotinfo.getDepthInfo(coin))
+# print(spotinfo.getCandleChart(coin, "4h", startTime=fiveSecondAgo, endTime=currentTime, limit=3))
+# print(spotinfo.getPrice(coin))

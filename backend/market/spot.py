@@ -23,27 +23,27 @@ class Spot:
 
 # Example usage
 if __name__ == '__main__':
-    spot_instance = Spot()
+    #spot_instance = Spot()
     # Create an order
     #response = spot_instance.toCreateOrder(coin="BTC", type="LIMIT", side="BUY", price=20000, quoteOrderQty=10)
     #print("placeOrder:", response)
 
     # Cancel an order
-    cancel_response = spot_instance.toCancelOrder(coin="BTC", orderId="1725015097778012160")
-    print("cancelOrder:", cancel_response)
+    #cancel_response = spot_instance.toCancelOrder(coin="BTC", orderId="1725015097778012160")
+    #print("cancelOrder:", cancel_response)
 
     # Query an order
     #query_response = spot_instance.queryOrder(coin="BTC", orderId="1724603042994487296")
     #print("queryOrder:", query_response)
 
     # Query open orders
-    open_orders_response = spot_instance.toQueryOpenOrders(coin="BTC")
-    print("queryOpenOrders:", open_orders_response)
+    #open_orders_response = spot_instance.toQueryOpenOrders(coin="BTC")
+    #print("queryOpenOrders:", open_orders_response)
 
 
     end_time = int(time.time() * 1000)  # Current time in milliseconds
     start_time = end_time - (7 * 24 * 60 * 60 * 1000)  # 7 days ago in milliseconds
 
     # Query order history
-    order_history_response = spot_instance.getOrderHistory(coin="ADA", startTime=start_time, endTime=end_time, pageIndex=1, pageSize=99)
-    print("orderHistory:", order_history_response)
+    #order_history_response = spot_instance.getOrderHistory(coin="ADA", startTime=start_time, endTime=end_time, pageIndex=1, pageSize=99)
+    #print("orderHistory:", order_history_response)

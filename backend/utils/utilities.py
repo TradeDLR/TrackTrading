@@ -4,13 +4,13 @@ class PrintCommand:
         self.descriptions = descriptions
 
     def printCommands(self):
-        print("*" * 134)
+        print("~" * 134)
         for command, description in self.descriptions.items():
             # Truncate the command if it is too long and adjust the spacing
             fixedLengthCommand = (command[:50]) if len(command) > 50 else command.ljust(51)
             fixedLengthDescription = (description[:75]) if len(description) > 75 else description.ljust(75)
-            print(f"| {fixedLengthCommand} -> {fixedLengthDescription} |")
-        print("*" * 134)
+            print(f"\ {fixedLengthCommand} -> {fixedLengthDescription} /")
+        print("~" * 134)
 
     def userInput(self):
         while True:
