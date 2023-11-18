@@ -8,14 +8,20 @@ class SpotInfo:
         self.bingxAPI = getBingxAPI()
 
     def getQuerySymbols(self, coin):
-        return self.bingxAPI.fetchMarketData('spot/v1/common/symbols', coin)
+        symbols = self.bingxAPI.fetchMarketData('spot/v1/common/symbols').get('data', {}).get('symbols', [])
+        symbol = coin + "-USDT"
+        spot = next((s for s in symbols if s['symbol'] == symbol), None)
+        return spot  # self.bingxAPI.fetchMarketData('spot/v1/common/symbols')
 
+    # TODO:
     def getTranscationRecords(self, coin: str, limit: int = 2):
         return self.bingxAPI.fetchMarketData('spot/v1/market/trades', coin, limit=limit)#.get('data',[])
 
+    # TODO:
     def getDepthInfo(self, coin: str, limit: int = 2):
         return self.bingxAPI.fetchMarketData('spot/v1/market/depth', coin, limit=limit)
 
+    # TODO:
     def getCandleChart(self, coin: str, interval: str = '1h', startTime: int = int(time.time() * 1000),
                        endTime: int = int(time.time() * 1000) - 5000, limit: int = 0):
         return self.bingxAPI.fetchMarketData('spot/v1/market/kline', coin, interval=interval, startTime=startTime,
@@ -41,7 +47,7 @@ def getSpotInfo():
 
 # spotinfo = SpotInfo()
 # coin = ["BTC", "ETH"]
-# # coin = "B"
+# coin = "BTC"
 # currentTime = int(time.time() * 1000)
 # fiveSecondAgo = currentTime - 5000
 #
