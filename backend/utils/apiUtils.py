@@ -4,6 +4,7 @@ import hmac
 from hashlib import sha256
 import config
 
+
 class BingxAPI:
     APIURL = "https://open-api.bingx.com"
     APIKEY = config.API_KEY
@@ -28,3 +29,28 @@ class BingxAPI:
         sortedKeys = sorted(paramsMap.keys())
         paramsStr = "&".join([f"{key}={paramsMap[key]}" for key in sortedKeys])
         return f"{paramsStr}&timestamp={int(time.time() * 1000)}"
+
+    # For spot market info
+    def fetchMarketData(self, req, coin=None, method="GET", **kwargs):
+        path = '/openApi/' + req
+        paramsMap = {}
+        if isinstance(coin, list):
+            # Handle list of coins
+            results = {}
+            for c in coin:
+                paramsMap = {"symbol": c + "-USDT"}
+                paramsMap.update({k: v for k, v in kwargs.items() if v is not None})
+                paramsStr = self.parseParams(paramsMap)
+                payload = {}
+                results[c] = self.sendRequest(method, path, paramsStr, payload)
+            return results
+        else:
+            paramsMap = {"symbol": coin + "-USDT"} if coin else {}
+            paramsMap.update({k: v for k, v in kwargs.items() if v is not None})
+            paramsStr = self.parseParams(paramsMap)
+            payload = {}
+            return self.sendRequest(method, path, paramsStr, payload)
+
+
+def getBingxAPI():
+    return BingxAPI()

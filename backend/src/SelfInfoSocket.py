@@ -1,6 +1,6 @@
-from backend.account.FundBalance import FundBalance
-from backend.account.PerpetualBalance import PerpetualBalance
-from backend.account.StandardBalance import StandardBalance
+from backend.account.fundbalance import FundBalance
+from backend.account.perpetualbalance import PerpetualBalance
+from backend.account.standardbalance import StandardBalance
 from backend.utils.utilities import PrintCommand
 import sys
 import os
@@ -15,27 +15,27 @@ class SelfInfoSocket(FundBalance, PerpetualBalance, StandardBalance, PrintComman
         StandardBalance.__init__(self)
 
         commands = {
-            "fund balance": self.fundBalance,
-            "perp total": self.perpTotal,
-            "perp up": self.perpUP,
-            "perp rp": self.perpRP,
-            "perp balance": self.perpFreeBalance,
-            "std total": self.stdTotal,
-            "std up": self.stdUP,
-            "std balance": self.stdBalance,
-            "quit": self.quit
+            ("fund balance", "fb"): self.fundBalance,
+            ("perp total", "pt"): self.perpTotal,
+            ("perp up", "pu"): self.perpUP,
+            ("perp rp", "pr"): self.perpRP,
+            ("perp balance", "pb"): self.perpFreeBalance,
+            ("std total", "st"): self.stdTotal,
+            ("std up", "su"): self.stdUP,
+            ("std balance", "sb"): self.stdBalance
+            #"quit": self.quit
         }
 
         descriptions = {
-            "fund balance": "Get fund balance",
-            "perp total/up/rp/balance": "Get perpetual total balance/unrealized profit/realized profit/balance",
+            "fund balance (fb)": "Get fund balance",
+            "perp total/up/rp/balance (pt / pu / pr / pb)": "Get perpetual total balance/unrealized profit/realized profit/balance",
             # "perp up": "Get perpetual unrealized profit",
             # "perp rp": "Get perpetual realized profit",
             # "perp balance": "Get perpetual free balance",
-            "std total/up/balance": "Get perpetual total balance/unrealized profit/balance",
+            "std total/up/balance (st / su / sb)": "Get perpetual total balance/unrealized profit/balance",
             # "std up": "Get standard unrealized profit",
             # "std total": "Get standard total balance",
-            "quit": "Quit"
+            "quit (Q or q)": "Quit"
         }
         PrintCommand.__init__(self, commands, descriptions)
 
@@ -68,8 +68,8 @@ class SelfInfoSocket(FundBalance, PerpetualBalance, StandardBalance, PrintComman
             print("Failed to fetch perpetual balance.")
 
     def perpFreeBalance(self):
-        if self.perp.updatePerpBalance():
-            freeBalance = self.perp.getPerpAsset()
+        if self.updatePerpBalance():
+            freeBalance = self.getPerpAsset()
             print(f"Perpetual Free Balance: {freeBalance} USDT")
         else:
             print("Failed to fetch perpetual balance.")
@@ -88,27 +88,6 @@ class SelfInfoSocket(FundBalance, PerpetualBalance, StandardBalance, PrintComman
 
     # def mkinfo(self):
     #     print(f"Latest Price of {}")
-
-
-    def printCommands(self):
-        print("*" * 103)
-        for command, description in self.descriptions.items():
-            # Truncate the command if it is too long and adjust the spacing
-            fixedLengthCommand = (command[:24]) if len(command) > 24 else command.ljust(25)
-            fixedLengthDescription = (description[:65]) if len(description) > 69 else description.ljust(70)
-            print(f"* {fixedLengthCommand} -> {fixedLengthDescription} *")
-        print("*" * 103)
-
-    def userInput(self):
-        while True:
-            self.printCommands()
-            userCommand = input("Enter command: ").lower()
-            if userCommand == 'quit':
-                break
-            if userCommand in self.commands:
-                self.commands[userCommand]()
-            else:
-                print("Unknown command. Please try again.")
 
 def getSelfInfoSocket():
     return SelfInfoSocket()

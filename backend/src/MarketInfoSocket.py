@@ -3,40 +3,40 @@
 # import os
 # sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-from backend.market.Marketinfo import MarketInfo
+from backend.market.perpinfo import PerpInfo
 from backend.utils.utilities import PrintCommand
 import time
 
-class MarketInfoSocket(MarketInfo, PrintCommand):
+class MarketInfoSocket(PerpInfo, PrintCommand):
     def __init__(self):
-        # super().__init__()  # Initialize the parent class (MarketInfo)
-        MarketInfo.__init__(self)
+        # super().__init__()  # Initialize the parent class (PerpetualInfo)
+        PerpInfo.__init__(self)
         commands = {
-            "contract": self.contractInfo,
-            "price": self.latestPrice,
-            "depth": self.marketDepth,
-            "trade": self.latestTrade,
-            "funding rate": self.currentFundingRate,
-            "funding history": self.fundingRateHistory,
-            "kline": self.kLines,
-            "interest": self.openInterest,
-            "ticker": self.ticker,
-            "book ticker": self.bookTicker,
-            "quit": self.quit
+            ("contract", "c"): self.contractInfo,
+            ("price", "p"): self.latestPrice,
+            ("depth", "d"): self.marketDepth,
+            ("trade", "tr"): self.latestTrade,
+            ("funding rate", "fr"): self.currentFundingRate,
+            ("funding history", "fh"): self.fundingRateHistory,
+            ("kline", "k"): self.kLines,
+            ("interest", "i"): self.openInterest,
+            ("ticker", "ti"): self.ticker,
+            ("book ticker", "bt"): self.bookTicker
+            #("quit", "q"): self.quit
         }
 
         descriptions = {
-            "contract": "Get contract info",
-            "price": "Get latest price",
-            "depth": "Get market depth",
-            "trade": "Get latest trade",
-            "funding rate": "Get current funding rate",
-            "funding history": "Get funding rate history",
-            "kline": "Get K-lines",
-            "interest": "Get open interest",
-            "ticker": "Get ticker",
-            "book ticker": "Get book ticker",
-            "quit": "Quit"
+            "contract (c)": "Get contract info",
+            "price (p)": "Get latest price",
+            "depth (d)": "Get market depth",
+            "trade (tr)": "Get latest trade",
+            "funding rate (fr)": "Get current funding rate",
+            "funding history (fh)": "Get funding rate history",
+            "kline (k)": "Get K-lines",
+            "interest (i)": "Get open interest",
+            "ticker (ti)": "Get ticker",
+            "book ticker (bt)": "Get book ticker",
+            "quit (Q or q)": "Quit"
         }
 
         PrintCommand.__init__(self, commands, descriptions)
@@ -141,9 +141,13 @@ class MarketInfoSocket(MarketInfo, PrintCommand):
         while True:
             coin = str(input("Enter coin: ").upper())
             if coin:
-                return coin
+                # Check if the coin exists
+                if self.getContractInfo(coin) is not None:
+                    return coin
+                else:
+                    print(f"{coin} is not a valid coin. Please try again.")
             else:
-                print("Unknown coin. Please try again.")
+                print("No coin entered. Please try again.")
 
 def getMarketInfoSocket():
     return MarketInfoSocket()

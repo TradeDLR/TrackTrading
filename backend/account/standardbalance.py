@@ -16,7 +16,7 @@ class StandardBalance:
     def getStdUP(self):
         _, unrealizedProfit = self.getOpenOrder()
         if unrealizedProfit is not None:
-            print(unrealizedProfit)
+            # print(unrealizedProfit)
             return unrealizedProfit
         else:
             print("Failed to fetch standard unrealized profit.")
@@ -26,7 +26,7 @@ class StandardBalance:
         margin, unrealizedProfit = self.getOpenOrder()
         if margin is not None and unrealizedProfit is not None:
             total = margin + unrealizedProfit
-            print(total)
+            # print(total)
             return total
         else:
             print("Failed to fetch standard total balance.")

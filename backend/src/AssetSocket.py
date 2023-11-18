@@ -3,9 +3,9 @@ import os
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-from backend.account.FundBalance import FundBalance
-from backend.account.PerpetualBalance import PerpetualBalance
-from backend.account.StandardBalance import StandardBalance
+from backend.account.fundbalance import FundBalance
+from backend.account.perpetualbalance import PerpetualBalance
+from backend.account.standardbalance import StandardBalance
 from backend.utils.csv_xlsx import AssetWriter
 
 
@@ -25,10 +25,10 @@ class AssetSocket(FundBalance, PerpetualBalance, StandardBalance, AssetWriter):
             perpAsset = 0
         stdAsset = self.getStdTotal() or 0
 
-        self.callCsvXlsx(fund)
+        # self.callCsvXlsx(fund)
 
         totalAsset = fund + perpAsset + stdAsset
-        self.appendTotalAssetCSV(totalAsset)
+        self.writeAndUpdateAsset(self.balances, totalAsset)
 
 
 def getAssetSocket():
