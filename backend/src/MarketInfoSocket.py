@@ -141,9 +141,13 @@ class MarketInfoSocket(PerpInfo, PrintCommand):
         while True:
             coin = str(input("Enter coin: ").upper())
             if coin:
-                return coin
+                # Check if the coin exists
+                if self.getContractInfo(coin) is not None:
+                    return coin
+                else:
+                    print(f"{coin} is not a valid coin. Please try again.")
             else:
-                print("Unknown coin. Please try again.")
+                print("No coin entered. Please try again.")
 
 def getMarketInfoSocket():
     return MarketInfoSocket()

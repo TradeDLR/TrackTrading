@@ -1,45 +1,38 @@
 from backend.utils.apiUtils import getBingxAPI
-from backend.utils.csv_xlsx import AssetWriter
+from backend.market.spotinfo import getSpotInfo
 
 
 class FundBalance:
     def __init__(self):
         self.bingxAPI = getBingxAPI()
+        self.spotinfo = getSpotInfo()
         self.balances = []
         self.coinPrices = {}
 
     def getFundBalance(self):
         balance = self.bingxAPI.fetchMarketData('spot/v1/account/balance').get('data', {}).get('balances', [])
         self.balances = [b for b in balance if float(b['free']) != 0.0 or float(b['locked']) != 0.0]
-        # print(self.balances)
         self.updateCoinPrices()
         fundTotal = self.calculationUSDT()
-        # print(f"Fund total: {fundTotal}")
+        print(f"Possessing Monetary Value: {fundTotal}")
         return fundTotal
 
     def getOwnCoin(self):
         return [balance.get('asset') for balance in self.balances if float(balance['free']) != 0.0 or float(balance['locked']) != 0.0]
 
-    def getCoinPrice(self, coin):
-        if coin == "USDT":
-            return 1.0
-
-        response = self.bingxAPI.fetchMarketData('spot/v1/ticker/24hr', coin)
-        data = response.get('data', [])
-        if data:
-            return self.extractPrice(data)
-        return None
-
-    @staticmethod
-    def extractPrice(data):
-        # Assuming data[0] contains the required price info
-        return float(data[0].get('lastPrice', 0))
+    def getCoinPrice(self, coins):
+        for coin in coins:
+            if coin == "USDT":
+                self.coinPrices[coin] = 1.0
+            else:
+                data = self.spotinfo.getPrice(coin)
+                self.coinPrices[coin] = data[coin]
+        return self.coinPrices
 
     def updateCoinPrices(self):
         coinList = self.getOwnCoin()
-        for coin in coinList:
-            self.coinPrices[coin] = self.getCoinPrice(coin)
-        print("Updated coin prices:", self.coinPrices)
+        self.getCoinPrice(coinList)
+        print("Current Prices of Owned Coins", self.coinPrices)
 
     def calculationUSDT(self):
         total = 0

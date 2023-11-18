@@ -9,14 +9,14 @@ class PerpInfo:
         self.bingxAPI = getBingxAPI()
 
     def getContractInfo(self, coin: str):
-        list = self.bingxAPI.fetchMarketData("swap/v2/quote/contracts")
-        for contract in list['data']:
-            if contract['symbol'] == coin + "-USDT":
-                return contract
-        return None  # Return None if the coin is not found
+        contractList = self.bingxAPI.fetchMarketData("swap/v2/quote/contracts")['data']
+        symbol = coin + "-USDT"
+        contract = next((contract for contract in contractList if contract['symbol'] == symbol), None)
+        return contract
 
 
     def getLatestPrice(self, coin: str):
+        print(self.bingxAPI.fetchMarketData("swap/v2/quote/price", coin))
         return self.bingxAPI.fetchMarketData("swap/v2/quote/price", coin).get("data", {}).get("price", "")
 
     def getMarketDepth(self, coin: str, limit: int = 0):  # limit: len=0|oneof=5 10 20 50 100 500 1000
@@ -91,7 +91,7 @@ class PerpInfo:
 
 
 # mar = PerpInfo()
-# crypto_coin = "BTC"
+# crypto_coin = "B"
 # currentTime = int(time.time() * 1000)
 # fiveSecondAgo = currentTime - 5000
 #

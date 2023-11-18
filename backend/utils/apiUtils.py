@@ -34,12 +34,22 @@ class BingxAPI:
     def fetchMarketData(self, req, coin=None, method="GET", **kwargs):
         path = '/openApi/' + req
         paramsMap = {}
-        if coin is not None:
-            paramsMap["symbol"] = coin + "-USDT"
-        paramsMap.update({k: v for k, v in kwargs.items() if v is not None})
-        paramsStr = self.parseParams(paramsMap)
-        payload = {}
-        return self.sendRequest(method, path, paramsStr, payload)
+        if isinstance(coin, list):
+            # Handle list of coins
+            results = {}
+            for c in coin:
+                paramsMap = {"symbol": c + "-USDT"}
+                paramsMap.update({k: v for k, v in kwargs.items() if v is not None})
+                paramsStr = self.parseParams(paramsMap)
+                payload = {}
+                results[c] = self.sendRequest(method, path, paramsStr, payload)
+            return results
+        else:
+            paramsMap = {"symbol": coin + "-USDT"} if coin else {}
+            paramsMap.update({k: v for k, v in kwargs.items() if v is not None})
+            paramsStr = self.parseParams(paramsMap)
+            payload = {}
+            return self.sendRequest(method, path, paramsStr, payload)
 
 
 def getBingxAPI():
