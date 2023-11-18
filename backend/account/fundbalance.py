@@ -25,8 +25,8 @@ class FundBalance:
             if coin == "USDT":
                 self.coinPrices[coin] = 1.0
             else:
-                data = self.spotinfo.getPrice(coin)
-                self.coinPrices[coin] = data[coin]
+                price = self.spotinfo.getPrice(coin)
+                self.coinPrices[coin] = price
         return self.coinPrices
 
     def updateCoinPrices(self):
