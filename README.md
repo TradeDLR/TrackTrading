@@ -7,7 +7,7 @@ and calculate the total value of their assets in USDT (or any other reference cu
 - Real-time Asset Tracking: Get the most recent prices of your crypto assets.
 - Export to CSV: Conveniently export your asset details and values to a CSV file.
 - Supports Multiple Cryptocurrencies: Track and manage a wide range of cryptocurrencies.
-- [Any Other Feature]: Brief description of the feature.
+- [Any Other Feature]: Stay tuned for more updates and enhancements!
 
 
 ### Installation

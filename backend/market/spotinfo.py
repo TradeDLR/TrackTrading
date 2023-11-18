@@ -7,11 +7,11 @@ class SpotInfo:
     def __init__(self):
         self.bingxAPI = getBingxAPI()
 
-    def getQuerySymbols(self, coin: str):
+    def getQuerySymbols(self, coin):
         return self.bingxAPI.fetchMarketData('spot/v1/common/symbols', coin)
 
     def getTranscationRecords(self, coin: str, limit: int = 2):
-        return self.bingxAPI.fetchMarketData('spot/v1/market/trades', coin, limit=limit)
+        return self.bingxAPI.fetchMarketData('spot/v1/market/trades', coin, limit=limit)#.get('data',[])
 
     def getDepthInfo(self, coin: str, limit: int = 2):
         return self.bingxAPI.fetchMarketData('spot/v1/market/depth', coin, limit=limit)
@@ -24,7 +24,7 @@ class SpotInfo:
     def getPrice(self, coin):
         try:
             data = self.bingxAPI.fetchMarketData('spot/v1/ticker/24hr', coin)
-            # print(data)
+            print(data)
             if isinstance(coin, list):
                 return {coin: info['data'][0]['lastPrice'] for coin, info in data.items()}
 
@@ -39,14 +39,14 @@ def getSpotInfo():
     return SpotInfo()
 
 
-# spotinfo = SpotInfo()
-# coin = ["BTC"]
+spotinfo = SpotInfo()
+coin = ["BTC", "ETH"]
 # coin = "B"
-# currentTime = int(time.time() * 1000)
-# fiveSecondAgo = currentTime - 5000
-#
-# print(spotinfo.getQuerySymbols(coin))
-# print(spotinfo.getTranscationRecords(coin))
-# print(spotinfo.getDepthInfo(coin))
-# print(spotinfo.getCandleChart(coin, "4h", startTime=fiveSecondAgo, endTime=currentTime, limit=3))
-# print(spotinfo.getPrice(coin))
+currentTime = int(time.time() * 1000)
+fiveSecondAgo = currentTime - 5000
+
+print(spotinfo.getQuerySymbols(coin))
+print(spotinfo.getTranscationRecords(coin))
+print(spotinfo.getDepthInfo(coin))
+print(spotinfo.getCandleChart(coin, "4h", startTime=fiveSecondAgo, endTime=currentTime, limit=3))
+print(spotinfo.getPrice(coin))
