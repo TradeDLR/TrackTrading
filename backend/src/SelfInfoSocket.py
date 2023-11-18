@@ -37,7 +37,7 @@ class SelfInfoSocket(FundBalance, PerpetualBalance, StandardBalance, PrintComman
             # "std total": "Get standard total balance",
             "quit (Q or q)": "Quit"
         }
-        PrintCommand.__init__(self, commands, descriptions, lenwave=123, lenCommand=45, lenDescipt=70)
+        PrintCommand.__init__(self, commands, descriptions)
 
     def fundBalance(self):
         fundTotal = self.getFundBalance()  # Directly call the getFundBalance method

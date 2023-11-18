@@ -25,7 +25,7 @@ class UserInterface(PrintCommand):
             "spot trading (spot or st)": "For spot trading",
             "quit (Q or q)": "Quit"
         }
-        super().__init__(commands, descriptions, lenwave=101, lenCommand=30, lenDescipt=63)
+        super().__init__(commands, descriptions)
 
     def assetProof(self):
         getAssetSocket().run()

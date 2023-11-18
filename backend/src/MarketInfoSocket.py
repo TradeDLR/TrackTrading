@@ -39,7 +39,7 @@ class MarketInfoSocket(PerpInfo, PrintCommand):
             "quit (Q or q)": "Quit"
         }
 
-        PrintCommand.__init__(self, commands, descriptions, lenwave=55, lenCommand=22, lenDescipt=25)
+        PrintCommand.__init__(self, commands, descriptions)
 
     def contractInfo(self):
         coin = self.coinInput()

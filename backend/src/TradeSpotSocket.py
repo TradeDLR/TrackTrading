@@ -25,7 +25,7 @@ class TradeSpotSocket(Spot, PrintCommand):
             "quit (Q or q)": "Quit"
         }
 
-        PrintCommand.__init__(self, commands, descriptions, lenwave=52, lenCommand=17, lenDescipt=27)
+        PrintCommand.__init__(self, commands, descriptions)
 
     # Define methods for each command
     def createOrder(self):
