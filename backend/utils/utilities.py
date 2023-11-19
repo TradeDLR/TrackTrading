@@ -1,16 +1,20 @@
 class PrintCommand:
-    def __init__(self, commands, descriptions):
+    def __init__(self, commands, descriptions, lenwave=130, lenCommand=60, lenDescipt=75):
         self.commands = commands
         self.descriptions = descriptions
+        self.lenwave = lenwave
+        self.lenCommand = lenCommand
+        self.lenDescipt = lenDescipt
 
     def printCommands(self):
-        print("~" * 134)
+
+        print("~" * self.lenwave)
         for command, description in self.descriptions.items():
             # Truncate the command if it is too long and adjust the spacing
-            fixedLengthCommand = (command[:50]) if len(command) > 50 else command.ljust(51)
-            fixedLengthDescription = (description[:75]) if len(description) > 75 else description.ljust(75)
+            fixedLengthCommand = (command[:self.lenCommand]) if len(command) > self.lenCommand else command.ljust(self.lenCommand)
+            fixedLengthDescription = (description[:self.lenDescipt]) if len(description) > self.lenDescipt else description.ljust(self.lenDescipt)
             print(f"\ {fixedLengthCommand} -> {fixedLengthDescription} /")
-        print("~" * 134)
+        print("~" * self.lenwave)
 
     def userInput(self):
         while True:

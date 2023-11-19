@@ -24,7 +24,7 @@ class SpotInfo:
     def getPrice(self, coin):
         try:
             data = self.bingxAPI.fetchMarketData('spot/v1/ticker/24hr', coin)
-            print(data)
+            # print(data)
             if isinstance(coin, list):
                 return {coin: info['data'][0]['lastPrice'] for coin, info in data.items()}
 
@@ -39,7 +39,9 @@ def getSpotInfo():
     return SpotInfo()
 
 
-#spotinfo = SpotInfo()
+
+# spotinfo = SpotInfo()
+
 # coin = ["BTC", "ETH"]
 # # coin = "B"
 # currentTime = int(time.time() * 1000)
