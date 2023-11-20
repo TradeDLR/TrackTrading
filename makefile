@@ -1,4 +1,4 @@
 all:
 
-	@PYTHONPATH=$(shell pwd) python3 backend/src/UserInterface.py
+	@PYTHONPATH=$(shell pwd) python3 backend/socket/UserInterface.py
 	

@@ -4,13 +4,26 @@ class PrintCommand:
         self.descriptions = descriptions
 
     def printCommands(self):
-        print("*" * 134)
+        longest_command_length = 0
+        longest_description_length = 0
+
         for command, description in self.descriptions.items():
-            # Truncate the command if it is too long and adjust the spacing
-            fixedLengthCommand = (command[:50]) if len(command) > 50 else command.ljust(51)
-            fixedLengthDescription = (description[:75]) if len(description) > 75 else description.ljust(75)
-            print(f"| {fixedLengthCommand} -> {fixedLengthDescription} |")
-        print("*" * 134)
+            longest_command_length = max(longest_command_length, len(command))
+            longest_description_length = max(longest_description_length, len(description))
+        longest_command_length += 4
+        longest_description_length += 4
+
+        # 5 additional characters for "->" and additional 1 space from the beginning.
+        wave_length = longest_command_length + longest_description_length + 5
+
+        print(' ' + "~" * wave_length)
+        for command, description in self.descriptions.items():
+            # Adjust the command and description to have even spacing and a tab (4 spaces)
+            formatted_command = command.ljust(longest_command_length)
+            formatted_description = description.ljust(longest_description_length)
+            print(f"\ {formatted_command} -> {formatted_description}/")
+        print(' ' + "~" * wave_length)
+
 
     def userInput(self):
         while True:
