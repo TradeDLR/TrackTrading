@@ -7,7 +7,7 @@ from backend.market.perpinfo import PerpInfo
 from backend.utils.utilities import PrintCommand
 import time
 
-class MarketInfoSocket(PerpInfo, PrintCommand):
+class PerpMarketSocket(PerpInfo, PrintCommand):
     def __init__(self):
         # super().__init__()  # Initialize the parent class (PerpetualInfo)
         PerpInfo.__init__(self)
@@ -98,9 +98,12 @@ class MarketInfoSocket(PerpInfo, PrintCommand):
         endTime = currentTime - 10000000
         limit = int(input("Limit : "))
         kline = self.getKLines(coin, options, endTime, currentTime, limit)
+        #percentage_change = ((kline[1] - kline[0]) / kline[0]) * 100
+
         if kline is not None and len(kline) > 0:
             for k in kline:
-                print(f"Open: {k[0]}, Close: {k[1]}, High: {k[2]}, Low: {k[3]}, Volume: {k[4]}, Time: {k[5]}")
+                percentage_change = ((float(k[1]) - float(k[0])) / float(k[0])) * 100
+                print(f"Open: {k[0]}, Close: {k[1]}, High: {k[2]}, Low: {k[3]}, Volume: {k[4]}, Time: {k[5]}, {percentage_change:.2f}% in {options}")
         else:
             print("Failed to get kline.")
         
@@ -149,8 +152,8 @@ class MarketInfoSocket(PerpInfo, PrintCommand):
             else:
                 print("No coin entered. Please try again.")
 
-def getMarketInfoSocket():
-    return MarketInfoSocket()
+def getPerpMarketSocket():
+    return PerpMarketSocket()
 
 # if __name__ == "__main__":
 #     user = MarketInfoSocket()

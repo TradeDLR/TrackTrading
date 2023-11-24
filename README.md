@@ -36,6 +36,6 @@ make -j$(nproc)
 ```
 or
 ```shell
-python3 backend/src/UserInterface.py
+python3 backend/socket/UserInterface.py
 ```
 

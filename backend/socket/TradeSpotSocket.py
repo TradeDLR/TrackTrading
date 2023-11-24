@@ -1,10 +1,12 @@
 from backend.market.spot import Spot
+from backend.market.spotinfo import getSpotInfo
 from backend.utils.utilities import PrintCommand
 import time
 
 class TradeSpotSocket(Spot, PrintCommand):
     def __init__(self):
         Spot.__init__(self)
+        self.spotinfo = getSpotInfo()
         commands = {
             ("create", "cr"): self.createOrder,
             ("cancel", "ca"): self.cancelOrder,
@@ -23,7 +25,7 @@ class TradeSpotSocket(Spot, PrintCommand):
             "quit (Q or q)": "Quit"
         }
 
-        PrintCommand.__init__(self, commands, descriptions, lenwave=50, lenCommand=10, lenDescipt=30)
+        PrintCommand.__init__(self, commands, descriptions)
 
     # Define methods for each command
     def createOrder(self):
@@ -94,7 +96,10 @@ class TradeSpotSocket(Spot, PrintCommand):
         while True:
             coin = str(input("Enter coin: ").upper())
             if coin:
-                return coin
+                if self.spotinfo.getQuerySymbols(coin) is not None:
+                    return coin
+                else:
+                    print(f"{coin} is not a valid coin. Please try again.")
             else:
                 print("Unknown coin. Please try again.")
 
