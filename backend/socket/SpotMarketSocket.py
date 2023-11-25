@@ -133,8 +133,7 @@ class SpotMarketSocket(SpotInfo, PrintCommand):
                 if valid_coins:
                     return valid_coins
                 else:
-                    print(
-                        f"Please try again. Invalid coins: {', '.join(coins)}")
+                    print(f"Please try again. Invalid coins: {', '.join(coins)}")
             else:
                 print("No coins entered. Please try again.")
 

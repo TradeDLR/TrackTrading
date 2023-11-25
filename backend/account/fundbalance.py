@@ -13,7 +13,7 @@ class FundBalance:
         balance = self.bingxAPI.fetchMarketData('spot/v1/account/balance').get('data', {}).get('balances', [])
         self.balances = [b for b in balance if float(b['free']) != 0.0 or float(b['locked']) != 0.0]
         self.updateCoinPrices()
-        fundTotal = self.calculationUSDT()
+        fundTotal = self.calculationUSDT
         print(f"Possessing Monetary Value: {fundTotal}")
         return fundTotal
 
@@ -25,7 +25,7 @@ class FundBalance:
             if coin == "USDT":
                 self.coinPrices[coin] = 1.0
             else:
-                price = self.spotinfo.getPrice(coin)
+                price = self.spotinfo.getLastprice(coin)
                 self.coinPrices[coin] = price
         return self.coinPrices
 
@@ -34,6 +34,7 @@ class FundBalance:
         self.getCoinPrice(coinList)
         print("Current Prices of Owned Coins", self.coinPrices)
 
+    @property
     def calculationUSDT(self):
         total = 0
         for balance in self.balances:
@@ -48,6 +49,8 @@ class FundBalance:
 
             coinValue = 0
             if asset in self.coinPrices:
+                #print(f"{totalBalance}")
+                #print(f"{self.coinPrices[asset]}")
                 coinValue = totalBalance * self.coinPrices[asset]
                 total += coinValue
             balance['usdt_value'] = coinValue
