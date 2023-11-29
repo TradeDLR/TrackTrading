@@ -26,17 +26,18 @@ class SpotInfo:
 
     def getDepthInfo(self, coin: str, limit: int = 0):
         response = self.bingxAPI.fetchMarketData('spot/v1/market/depth', coin, method="GET",  limit=limit)
-        print(f"{response}")
+        #print(f"{response}")
         info = response['data']
-        list = {'bid_price': [], 'bid_qty': [], 'ask_price': [], 'ask_qty': []}
+        infos = {'bid_price': [], 'bid_qty': [], 'ask_price': [], 'ask_qty': []}
         for n in range(limit):
-            list['bid_price'].append(info['bids'][n][0])
-            list['bid_qty'].append(info['bids'][n][1])
-            list['ask_price'].append(info['asks'][n][0])
-            list['ask_qty'].append(info['asks'][n][1])
+            infos['bid_price'].append(info['bids'][n][0])
+            infos['bid_qty'].append(info['bids'][n][1])
+            infos['ask_price'].append(info['asks'][n][0])
+            infos['ask_qty'].append(info['asks'][n][1])
 
         fields = ["bid_price", "bid_qty", "ask_price", "ask_qty"]
-        results = tuple(list.get(field, '') for field in fields)
+        results = tuple(infos.get(field, '') for field in fields)
+        #print(f"{infos}")
         return results
 
     def getCandleChart(self, coin: str, interval: str, startTime: int = 0, endTime: int = 0, limit: int = 0):
@@ -92,6 +93,6 @@ coin = "BTC"
 
 #print(spotinfo.getQuerySymbols(coin))
 #print(spotinfo.getTransactionRecords(coin, 2))
-print(spotinfo.getDepthInfo(coin, 2))
+#print(spotinfo.getDepthInfo(coin, 2))
 #print(spotinfo.getCandleChart(coin, "1m", limit=2))
 #print(spotinfo.getPrice(coin))

@@ -38,12 +38,12 @@ class SpotMarketSocket(SpotInfo, PrintCommand):
     def candlestickChart(self):
         coin = self.coinInput()
         interval = str(input("Optional interval : [3m,15m,30m,1h,4h,8h,1d,3d,1w,1M] : "))
-        limit = int(input("Limit : "))
+        limit = int(input("Number limit 1440 : "))
         for c in coin:
             datas = self.getCandleChart(c, interval=interval, limit=limit)
             for n in range(limit):
                 percentage_change = ((datas[3][n] - datas[0][n]) / datas[0][n]) * 100
-                print(f"<{c}> Open: {datas[0][n]}, Max: {datas[1][n]}, Min: {datas[2][n]}, Close: {datas[3][n]}, Rate: {percentage_change:.2f}% in {interval}")
+                print(f"<{c}> {n}. Open: {datas[0][n]}, Max: {datas[1][n]}, Min: {datas[2][n]}, Close: {datas[3][n]}, Rate: {percentage_change:.2f}% in {interval}")
 
     def querySymbols(self):
         coin = self.coinInput()
@@ -53,17 +53,19 @@ class SpotMarketSocket(SpotInfo, PrintCommand):
 
     def depthInfo(self):
         coin = self.coinInput()
-        limit = int(input("Optional value [1~100] : "))
+        limit = int(input("Number limit 1000 : "))
         for c in coin:
             datas = self.getDepthInfo(c, limit)
-            print(f"{c} : {datas}")
+            for n in range(limit):
+                print(f"<{c}> {n}. bid_price: {datas[0][n]}, bid_qty: {datas[1][n]}, ask_price: {datas[2][n]}, ask_qty: {datas[3][n]}")
 
     def transactionRecords(self):
         coin = self.coinInput()
-        limit = int(input("Number : "))
+        limit = int(input("Number limit 100 : "))
         for c in coin:
             datas = self.getTransactionRecords(c, limit)
-            print(f"{c} : {datas}")
+            for n in range(limit):
+                print(f"{c} : {datas[n]}")
 
     def coinInput(self):
         while True:
