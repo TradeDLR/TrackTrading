@@ -49,6 +49,7 @@ class TradeSpotSocket(Spot, PrintCommand):
                 quantity = float(input("Enter quantity: "))
                 order = self.toCreateOrder(coin, trade, deal, quantity=quantity)
 
+
         elif deal == "LIMIT":
             price = float(input(f"Enter price to {trade.lower()}: "))
             if trade == "BUY":
@@ -59,6 +60,7 @@ class TradeSpotSocket(Spot, PrintCommand):
                 order = self.toCreateOrder(coin, trade, deal, price, quantity=quantity)
 
         if order is not None and len(order) > 0:
+            data = self.process_order_data(order)
             print(f"Order created successfully. {order}")
         else:
             print("Failed to create order.")
@@ -70,26 +72,26 @@ class TradeSpotSocket(Spot, PrintCommand):
 
         print(f"Order canceled successfully. {order}")
 
-    def queryOrder(self, *args):
+    def queryOrder(self):
         coin = self.coinInput()
         orderId = str(input("Enter order id: "))
         order = self.toQueryOrder(coin, orderId)
 
         print(f"Your order detail: {order}")
 
-    def queryOpenOrders(self, *args):
+    def queryOpenOrders(self):
         coin = self.coinInput()
         order = self.toQueryOpenOrders(coin)
 
         print(f"Your open orders: {order}")
 
-    def orderHistory(self, *args):
+    def orderHistory(self):
         coin = self.coinInput()
         endTime = int(time.time() * 1000)  # Current time in milliseconds
         days = int(input("How many days ago: "))
         startTime = endTime - (days * 24 * 60 * 60 * 1000)  # 7 days ago in milliseconds
         order = self.getOrderHistory(coin, startTime, endTime)
-        
+
         print(f"Your order history: {order}")
 
     def coinInput(self):
@@ -102,6 +104,23 @@ class TradeSpotSocket(Spot, PrintCommand):
                     print(f"{coin} is not a valid coin. Please try again.")
             else:
                 print("Unknown coin. Please try again.")
+
+    def process_order_data(self,order_data):
+
+        processed_data = {}
+        coin = order_data['data']['symbol'].split('-')[0]
+
+        # Extract the relevant information from the order data
+        order_info = {
+            'orderid': order_data['data']['orderId'],
+            'price': order_data['data']['price'],
+            'origQty': order_data['data']['origQty'],
+            'status': order_data['data']['status'],
+            'side': order_data['data']['side']
+        }
+        processed_data[coin] = [order_info]
+        print(f"{processed_data}")
+        return processed_data
 
 def getTradeSpotSocket():
     return TradeSpotSocket()

@@ -23,7 +23,7 @@ class UserInterface(PrintCommand):
         descriptions = {
             "asset proof (asset or ap)": "Get user's asset overview, including asset.csv and asset.xlsx",
             "user info (user or ui)": "Get user's specific information",
-            "perp market info (p market or pmi)": "Get perp market information",
+            "perpetual market info (p market or pmi)": "Get perp market information",
             "spot market info (s market or smi)": "Get spot market information",
             "spot trading (spot or st)": "For spot trading",
             "quit (Q or q)": "Quit"

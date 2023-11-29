@@ -29,99 +29,47 @@ class SpotMarketSocket(SpotInfo, PrintCommand):
 
     def spotPrice(self):
         coin = self.coinInput()
-        datas = self.getPrice(coin)
-        if isinstance(coin, list):
-            results = {}
-            for c in coin:
-                 if c in datas:
-                    info = datas[c]
-                    last_price = info['data'][0]['lastPrice']
-                    percentage_change = ((last_price - info['data'][0]['openPrice']) / info['data'][0]['openPrice']) * 100
-                    formatted_change = f"{percentage_change:.2f}% in 24hr"
-                    results[c] = {'lastPrice': last_price, 'change': formatted_change}
-            print(f"{results}")
-        else:
-            print("False")
+        for c in coin:
+            datas = self.getPrice(c)
+            percentage_change = ((datas[3] - datas[0]) / datas[0]) * 100
+            #formatted_change = f"{percentage_change:.2f}% in 24hr"
+            print(f"<{c}> Open: {datas[0]}, High: {datas[1]}, Low: {datas[2]}, Last: {datas[3]}, Volume: {datas[4]}, Rate: {percentage_change:.2f}% in 24hr")
+
+    def candlestickChart(self):
+        coin = self.coinInput()
+        interval = str(input("Optional interval : [3m,15m,30m,1h,4h,8h,1d,3d,1w,1M] : "))
+        limit = int(input("Limit : "))
+        for c in coin:
+            for n in range(limit):
+                datas = self.getCandleChart(c, interval=interval, limit=limit)
+                percentage_change = ((datas[3][n] - datas[0][n]) / datas[0][n]) * 100
+                formatted_change = f"{percentage_change:.2f}% in {interval}"
+
+                # fields = ["open_price", "max_price", "min_price", "close_price", "change"]
+                # re = {field: datas(field, '') for field in fields}
+                # results = {'close_price': datas['close_price'][n], 'change': formatted_change}
+                # print(f"{c} : {re}")
+                print(f"<{c}> Open: {datas[0]}, Max: {datas[1]}, Min: {datas[2]}, Close: {datas[3]}, Rate: {percentage_change:.2f}% in {interval}")
+
+    def querySymbols(self):
+        coin = self.coinInput()
+        for c in coin:
+            datas = self.getQuerySymbols(c)
+            print(f"{c} : {datas}")
 
     def depthInfo(self):
         coin = self.coinInput()
         limit = int(input("Optional value [1~100] : "))
-        datas = self.getDepthInfo(coin, limit)
-        n = 0
-        if isinstance(coin, list):
-            # print(f"{datas}")
-            for n in range(limit):
-                results = {}
-                for c in coin:
-                    if c in datas:
-                        info = datas[c]
-                        bid_price = info['data']['bids'][n][0]
-                        bid_qty = info['data']['bids'][n][1]
-                        ask_price = info['data']['asks'][n][0]
-                        ask_qty = info['data']['asks'][n][1]
-
-                        results[c] = {'bid price': bid_price, 'bid qty': bid_qty, 'ask price': ask_price, 'ask_qty': ask_qty}
-                print(f"{results}")
-        else:
-            print("False")
+        for c in coin:
+            datas = self.getDepthInfo(c, limit)
+            print(f"{c} : {datas}")
 
     def transactionRecords(self):
         coin = self.coinInput()
         limit = int(input("Number : "))
-        datas = self.getTransactionRecords(coin, limit=limit)
-        n = 0
-        if isinstance(coin, list):
-            #print(f"{datas}")
-            for n in range(limit):
-                results = {}
-                for c in coin:
-                    if c in datas:
-                        info = datas[c]
-                        ID = info['data'][n]['id']
-                        Price = info['data'][n]['price']
-                        Qty = info['data'][n]['qty']
-                        results[c] = {'ID': ID, 'Price': Price, 'Qty': Qty}
-                print(f"{results}")
-        else:
-            print("False")
-
-    def querySymbols(self):
-        coin = self.coinInput()
-        symbols = self.getQuerySymbols(coin)
-        if isinstance(coin, list):
-            results = {}
-            for c in coin:
-                if c in symbols:
-                    results[c] = symbols[c]
-            print(f"{results}")
-        else:
-            print("False")
-
-    def candlestickChart(self):
-        coin = self.coinInput()
-        interval = str(input("Optional interval : [15m,30m,1h,4h,1d,1w,1M] : "))
-        limit = int(input("Limit : "))
-        candledata = self.getCandleChart(coin, interval=interval, limit=limit)
-
-        if isinstance(coin, list):
-            #print(f"{candledata}")
-            for n in range(limit):
-                results = {}
-                for coin, info in candledata.items():
-                    if 'data' in info and info['data']:
-                        data = info['data'][n]
-                        close_price = data[4]
-                        min_price = data[3]
-                        max_price = data[2]
-                        open_price = data[1]
-                        percentage_change = ((close_price - open_price) / open_price) * 100
-                        formatted_change = f"{percentage_change:.2f}% in {interval}"
-                        results[coin] = {'close': close_price, 'open': open_price, 'max': max_price, 'min': min_price, 'change': formatted_change}
-                    else:
-                        print("False")
-                print(f"{results}")
-        else:
-            print("False")
+        for c in coin:
+            datas = self.getTransactionRecords(c, limit)
+            print(f"{c} : {datas}")
 
     def coinInput(self):
         while True:
