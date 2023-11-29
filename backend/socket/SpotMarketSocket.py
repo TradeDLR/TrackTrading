@@ -40,16 +40,10 @@ class SpotMarketSocket(SpotInfo, PrintCommand):
         interval = str(input("Optional interval : [3m,15m,30m,1h,4h,8h,1d,3d,1w,1M] : "))
         limit = int(input("Limit : "))
         for c in coin:
+            datas = self.getCandleChart(c, interval=interval, limit=limit)
             for n in range(limit):
-                datas = self.getCandleChart(c, interval=interval, limit=limit)
                 percentage_change = ((datas[3][n] - datas[0][n]) / datas[0][n]) * 100
-                formatted_change = f"{percentage_change:.2f}% in {interval}"
-
-                # fields = ["open_price", "max_price", "min_price", "close_price", "change"]
-                # re = {field: datas(field, '') for field in fields}
-                # results = {'close_price': datas['close_price'][n], 'change': formatted_change}
-                # print(f"{c} : {re}")
-                print(f"<{c}> Open: {datas[0]}, Max: {datas[1]}, Min: {datas[2]}, Close: {datas[3]}, Rate: {percentage_change:.2f}% in {interval}")
+                print(f"<{c}> Open: {datas[0][n]}, Max: {datas[1][n]}, Min: {datas[2][n]}, Close: {datas[3][n]}, Rate: {percentage_change:.2f}% in {interval}")
 
     def querySymbols(self):
         coin = self.coinInput()
