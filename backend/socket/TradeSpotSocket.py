@@ -27,43 +27,49 @@ class TradeSpotSocket(Spot, PrintCommand):
 
         PrintCommand.__init__(self, commands, descriptions)
 
-    # Define methods for each command
     def createOrder(self):
         coin = self.coinInput()
-        trade = str(input("Buy or Sell: ").upper())
+        while True:
+            trade = str(input("Buy or Sell: ").upper())
+            if trade in ["BUY", "SELL"]:
+                while True:
+                    deal = str(input("Market or Limit: ").upper())
+                    if deal in ["MARKET", "LIMIT"]:
+                        break
+                    else:
+                        print("Invalid input. Please enter 'market' or 'limit'.")
 
-        if trade not in ["BUY", "SELL"]:
-            print("Invalid input. Please enter 'buy' or 'sell'.")
-            return
+                if deal == "MARKET":
+                    if trade == "BUY":
+                        quoteOrderQty = float(input("Enter quote order quantity: "))
+                        order = self.toCreateOrder(coin, trade, deal, quoteOrderQty=quoteOrderQty)
+                    else:  # SELL
+                        quantity = float(input("Enter quantity: "))
+                        order = self.toCreateOrder(coin, trade, deal, quantity=quantity)
 
-        deal = str(input("Market or Limit: ").upper())
-        if deal not in ["MARKET", "LIMIT"]:
-            print("Invalid input. Please enter 'market' or 'limit'.")
-            return
+                elif deal == "LIMIT":
+                    while True:
+                        try:
+                            price = float(input(f"Enter price to {trade.lower()}: "))
+                            break
+                        except ValueError:
+                            print("Invalid input. Please enter a valid number.")
 
-        if deal == "MARKET":
-            if trade == "BUY":
-                quoteOrderQty = float(input("Enter quote order quantity: "))
-                order = self.toCreateOrder(coin, trade, deal, quoteOrderQty=quoteOrderQty)
-            else:  # SELL
-                quantity = float(input("Enter quantity: "))
-                order = self.toCreateOrder(coin, trade, deal, quantity=quantity)
+                    if trade == "BUY":
+                        quoteOrderQty = float(input("Enter quote order quantity: "))
+                        order = self.toCreateOrder(coin, trade, deal, price, quoteOrderQty=quoteOrderQty)
+                    else:  # SELL
+                        quantity = float(input("Enter quantity: "))
+                        order = self.toCreateOrder(coin, trade, deal, price, quantity=quantity)
 
-
-        elif deal == "LIMIT":
-            price = float(input(f"Enter price to {trade.lower()}: "))
-            if trade == "BUY":
-                quoteOrderQty = float(input("Enter quote order quantity: "))
-                order = self.toCreateOrder(coin, trade, deal, price, quoteOrderQty=quoteOrderQty)
-            else:  # SELL
-                quantity = float(input("Enter quantity: "))
-                order = self.toCreateOrder(coin, trade, deal, price, quantity=quantity)
-
-        if order is not None and len(order) > 0:
-            data = self.process_order_data(order)
-            print(f"Order created successfully. {order}")
-        else:
-            print("Failed to create order.")
+                if order is not None and len(order) > 0:
+                    data = self.process_order_data(order)
+                    print(f"Order created successfully. {data}")
+                    break  # Exit the loop after successful order creation
+                else:
+                    print("Failed to create order. Please try again.")
+            else:
+                print("Invalid input. Please enter 'buy' or 'sell'.")
 
     def cancelOrder(self):
         coin = self.coinInput()
@@ -106,7 +112,6 @@ class TradeSpotSocket(Spot, PrintCommand):
                 print("Unknown coin. Please try again.")
 
     def process_order_data(self,order_data):
-
         processed_data = {}
         coin = order_data['data']['symbol'].split('-')[0]
 
@@ -119,7 +124,7 @@ class TradeSpotSocket(Spot, PrintCommand):
             'side': order_data['data']['side']
         }
         processed_data[coin] = [order_info]
-        print(f"{processed_data}")
+        #print(f"{processed_data}")
         return processed_data
 
 def getTradeSpotSocket():
