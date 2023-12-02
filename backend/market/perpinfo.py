@@ -89,10 +89,11 @@ class PerpInfo:
         fields = ["bid_price", "bid_qty", "ask_price", "ask_qty"]
         return tuple(response.get(field, '') for field in fields)
 
+def getPerpInfo():
+    return PerpInfo()
 
-
-mar = PerpInfo()
-crypto_coin = "BTC"
+# mar = PerpInfo()
+# crypto_coin = "BTC"
 # currentTime = int(time.time() * 1000)
 # fiveSecondAgo = currentTime - 5000
 #
