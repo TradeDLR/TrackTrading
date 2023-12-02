@@ -84,9 +84,9 @@ def getSpotInfo():
 
 
 
-spotinfo = SpotInfo()
-
-coin = "BTC"
+# spotinfo = SpotInfo()
+#
+# coin = "BTC"
 
 #currentTime = int(time.time() * 1000)
 #fiveSecondAgo = currentTime - 5000000

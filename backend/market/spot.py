@@ -72,8 +72,8 @@ class Spot:
         return self.bingxAPI.fetchMarketData("spot/v1/trade/historyOrders", coin, method="GET", startTime=startTime, endTime=endTime, pageIndex=1, pageSize=5)
 
 # Example usage
-if __name__ == '__main__':
-    spot_instance = Spot()
+# if __name__ == '__main__':
+#     spot_instance = Spot()
     # Create an order
     #response = spot_instance.toCreateOrder(coin="BTC", type="LIMIT", side="BUY", price=20000, quoteOrderQty=10)
     #print("placeOrder:", response)
