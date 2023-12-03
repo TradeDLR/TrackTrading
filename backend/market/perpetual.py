@@ -69,7 +69,6 @@ class Perpetual:
                 row = [field] + [order[field] for order in extractedInfo.values()]
                 table.add_row(row)
 
-            # Draw the table
             print(table.draw())
         else:
             print("No open orders available.")
