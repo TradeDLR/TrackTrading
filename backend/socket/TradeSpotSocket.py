@@ -29,65 +29,6 @@ class TradeSpotSocket(Spot, PrintCommand):
 
 
     """
-    Prompts the user to enter a cryptocurrency coin symbol (e.g., ETH, ARB) and validates 
-    the input.
-    Returns:
-        str or None: Returns the valid coin symbol as a string if a valid input is provided. 
-                     Returns None if the user enters 'q' to quit the input process.
-    """
-    def coinInput(self):
-        while True:
-            coin = str(input("Enter coin (or q to quit): ").upper())
-            if coin == "Q":
-                return None
-            if self.spotinfo.getQuerySymbols(coin) is not None:
-                return coin
-            else:
-                print(f"{coin} is not a valid coin. Please try again.")
-
-
-    """
-    Prompts the user to input a value and validates it against a set of allowed choices.
-    Args:
-        prompt (str): The prompt message to display to the user.
-        validChoices (list of str or int): A list of valid input choices.
-    Returns:
-        str or int or None: The valid user input matching one of the validChoices.
-                            Returns None if the user chooses to exit with 'Q'.
-    """
-    def getValidInput(self, prompt, validChoices):
-        while True:
-            userInput = input(prompt).upper()
-            if userInput == "Q":
-                return None
-
-            if all(isinstance(choice, int) for choice in validChoices):
-                try:
-                    userInput = int(userInput)
-                except ValueError:
-                    pass  # Continue to the next iteration if conversion fails
-
-            if userInput in validChoices:
-                return userInput
-            print(f"Invalid input. Please enter one of {validChoices}.")
-
-
-    """
-    Get the quantity of the coin or the price of the coin,
-    and quote order quantity. 
-    """
-    def getFloatInput(self, prompt):
-        while True:
-            user_input = input(prompt)
-            if user_input.upper() == "Q":
-                return None  # Signal to exit
-            try:
-                return float(user_input)
-            except ValueError:
-                print("Invalid input. Please enter a valid number.")
-
-
-    """
     Create a market order for buying or selling a specific coin at the current market price.
     Args:
         coin (str): The cryptocurrency for which the order will be placed.
@@ -130,7 +71,7 @@ class TradeSpotSocket(Spot, PrintCommand):
               or exits if the user inputs 'q' or an invalid option at any prompt.
     """
     def createOrder(self):
-        coin = self.coinInput()
+        coin = self.coinInput(self.spotinfo.getQuerySymbols)
         if coin is None:
             return  # Exit to selection page
 
@@ -158,7 +99,7 @@ class TradeSpotSocket(Spot, PrintCommand):
     through choices to define the parameters of the order.
     """
     def cancelOrder(self):
-        coin = self.coinInput()
+        coin = self.coinInput(self.spotinfo.getQuerySymbols)
         if coin is None:
             return
 
