@@ -75,10 +75,12 @@ class Perpetual:
             print("No open orders available.")
         return extractedInfo
 
-# perpetual = Perpetual()
+perpetual = Perpetual()
 # perpetual.openOrder("ETH", side="SELL", positionSide="SHORT", price=2300, quantity=0.5,
 #                     takeProfit="{\"type\": \"TAKE_PROFIT\", \"quantity\": 0.5,\"stopPrice\": 1200,\"price\": 1200,\"workingType\":\"MARK_PRICE\"}",
 #                     stopLoss="{\"type\": \"STOP\", \"quantity\": 0.5,\"stopPrice\": 2320,\"price\": 2320,\"workingType\":\"MARK_PRICE\"}")
 
-# perpetual.queryAllOrders("ETH")
+orderinfo = perpetual.queryAllOrders("TRB")
+print(orderinfo)
+
 # perpetual.cancelOrder("ETH")
