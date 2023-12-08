@@ -9,8 +9,11 @@ class FundBalance:
         self.balances = []
         self.coinPrices = {}
 
+    def getAssetData(self):
+        return self.bingxAPI.fetchMarketData('spot/v1/account/balance').get('data', {}).get('balances', [])
+
     def getFundBalance(self):
-        balance = self.bingxAPI.fetchMarketData('spot/v1/account/balance').get('data', {}).get('balances', [])
+        balance = self.getAssetData()
         self.balances = [b for b in balance if float(b['free']) != 0.0 or float(b['locked']) != 0.0]
         self.updateCoinPrices()
         fundTotal = self.calculationUSDT
@@ -22,7 +25,7 @@ class FundBalance:
         return [balance.get('asset') for balance in self.balances if float(balance['free']) != 0.0 or float(balance['locked']) != 0.0]
 
     def getUsdtFree(self):
-        balance = self.bingxAPI.fetchMarketData('spot/v1/account/balance').get('data', {}).get('balances', [])
+        balance = self.getAssetData()
         for b in balance:
             asset = b.get('asset')
             if asset == "USDT":
