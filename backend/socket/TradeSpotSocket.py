@@ -1,12 +1,14 @@
 from backend.market.spot import Spot
 from backend.market.spotinfo import getSpotInfo
 from backend.utils.utilities import PrintCommand
+from backend.account.fundbalance import getFundBalance
 import time
 
 class TradeSpotSocket(Spot, PrintCommand):
     def __init__(self):
         Spot.__init__(self)
         self.spotinfo = getSpotInfo()
+        self.fundbalance = getFundBalance()
         commands = {
             ("create", "cr"): self.createOrder,
             ("cancel", "ca"): self.cancelOrder,
@@ -56,6 +58,8 @@ class TradeSpotSocket(Spot, PrintCommand):
     def createLimitOrder(self, coin, trade):
         price = self.getFloatInput(f"Enter price to {trade.lower()}: ")
         if trade == "BUY":
+            usdtFree = int(self.fundbalance.getUsdtFree()* 100) / 100
+            print(f"You now have : {usdtFree:.2f} USDT")
             quoteOrderQty = self.getFloatInput("Enter quote order quantity: ")
             return self.toCreateOrder(coin, trade, "LIMIT", price, quoteOrderQty=quoteOrderQty)
         else:  # SELL
