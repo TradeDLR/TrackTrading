@@ -56,10 +56,12 @@ class TradeSpotSocket(Spot, PrintCommand):
         dict: Details of the created market order, including status and order ID.
     """
     def createLimitOrder(self, coin, trade):
+        coinPrice = self.spotinfo.getLastprice(coin)
+        print(f"~ Current price : {coinPrice}")
         price = self.getFloatInput(f"Enter price to {trade.lower()}: ")
         if trade == "BUY":
-            usdtFree = int(self.fundbalance.getUsdtFree()* 100) / 100
-            print(f"You now have : {usdtFree:.2f} USDT")
+            freeUsdt = int(self.fundbalance.getUsdtFree()* 100) / 100
+            print(f"~ You now have : {freeUsdt:.2f} USDT")
             quoteOrderQty = self.getFloatInput("Enter quote order quantity: ")
             return self.toCreateOrder(coin, trade, "LIMIT", price, quoteOrderQty=quoteOrderQty)
         else:  # SELL
