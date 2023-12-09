@@ -8,6 +8,7 @@ from SelfInfoSocket import getSelfInfoSocket
 from TradeSpotSocket import getTradeSpotSocket
 from SpotMarketSocket import getSpotMarketSocket
 from backend.utils.utilities import PrintCommand
+from TradePerpSocket import getTradePerpSocket
 
 class UserInterface(PrintCommand):
     def __init__(self):
@@ -17,6 +18,7 @@ class UserInterface(PrintCommand):
             ("perp market info", "p market", "pmi"): self.perpMarketInfo,
             ("spot market info", "s market", "smi"): self.spotMarketInfo,
             ("spot trading", "spot", "st"): self.spotTrading,
+            ("perp trading", "perp", "pt"): self.perpTrading,
             ("quit", "Q", "q"): self.quit
         }
 
@@ -26,6 +28,7 @@ class UserInterface(PrintCommand):
             "perpetual market info (p market or pmi)": "Get perp market information",
             "spot market info (s market or smi)": "Get spot market information",
             "spot trading (spot or st)": "For spot trading",
+            "perp trading (perp or pt)": "For perpetual trading",
             "quit (Q or q)": "Quit"
         }
         super().__init__(commands, descriptions)
@@ -44,6 +47,9 @@ class UserInterface(PrintCommand):
 
     def spotTrading(self):
         getTradeSpotSocket().userInput()
+
+    def perpTrading(self):
+        getTradePerpSocket().userInput()
 
     def quit(self):
         print("Goodbye") 

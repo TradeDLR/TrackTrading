@@ -59,3 +59,6 @@ class PerpetualBalance:
         unrealizedProfit = self.getPerpUP()
         realizedProfit = self.getPerpRP()
         return asset + unrealizedProfit + realizedProfit
+
+def getPerpBalance():
+    return PerpetualBalance()
