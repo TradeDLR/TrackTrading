@@ -40,9 +40,13 @@ class TradeSpotSocket(Spot, PrintCommand):
     """
     def createMarketOrder(self, coin, trade):
         if trade == "BUY":
+            freeUsdt = int(self.fundbalance.getCoinFree('USDT') * 100) / 100
+            print(f"~ You have : {freeUsdt:.2f} USDT")
             quoteOrderQty = self.getFloatInput("Enter buying quantity: ")
             return self.toCreateOrder(coin, trade, "MARKET", quoteOrderQty=quoteOrderQty)
         else:  # SELL
+            freeCoin = self.fundbalance.getCoinFree(coin)
+            print(f"~ Available : {freeCoin}")
             quantity = self.getFloatInput("Enter selling quantity: ")
             return self.toCreateOrder(coin, trade, "MARKET", quantity=quantity)
 
@@ -60,11 +64,14 @@ class TradeSpotSocket(Spot, PrintCommand):
         print(f"~ Current price : {coinPrice}")
         price = self.getFloatInput(f"Enter price to {trade.lower()}: ")
         if trade == "BUY":
-            freeUsdt = int(self.fundbalance.getUsdtFree()* 100) / 100
-            print(f"~ You now have : {freeUsdt:.2f} USDT")
+            freeUsdt = int(self.fundbalance.getCoinFree('USDT')* 100) / 100
+            print(f"~ You have : {freeUsdt:.2f} USDT")
             quoteOrderQty = self.getFloatInput("Enter quote order quantity: ")
             return self.toCreateOrder(coin, trade, "LIMIT", price, quoteOrderQty=quoteOrderQty)
         else:  # SELL
+            freeCoin = self.fundbalance.getCoinFree(coin)
+            print(f"~ Available : {freeCoin}")
+
             quantity = self.getFloatInput("Enter quantity: ")
             return self.toCreateOrder(coin, trade, "LIMIT", price, quantity=quantity)
 

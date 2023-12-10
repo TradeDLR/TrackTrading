@@ -21,11 +21,11 @@ class FundBalance:
     def getOwnCoin(self):
         return [balance.get('asset') for balance in self.balances if float(balance['free']) != 0.0 or float(balance['locked']) != 0.0]
 
-    def getUsdtFree(self):
+    def getCoinFree(self, coin):
         balance = self.bingxAPI.fetchMarketData('spot/v1/account/balance').get('data', {}).get('balances', [])
         for b in balance:
             asset = b.get('asset')
-            if asset == "USDT":
+            if asset == coin:
                 freeBalance = float(b.get('free', '0'))
                 return freeBalance
 
