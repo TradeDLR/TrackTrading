@@ -100,3 +100,14 @@ class PrintCommand:
                 return float(user_input)
             except ValueError:
                 print("Invalid input. Please enter a valid number.")
+
+    def percentage(self, totalQty):
+        while True:
+            userinput = input("Enter percentage :")
+            if userinput.upper() == "Q":
+                return None
+            try:
+                qty = int(userinput)*float(totalQty)/100
+                return qty
+            except ValueError:
+                print("Invalid input. Please enter a valid number.")

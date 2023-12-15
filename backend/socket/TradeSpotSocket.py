@@ -71,9 +71,10 @@ class TradeSpotSocket(Spot, PrintCommand):
         else:  # SELL
             freeCoin = self.fundbalance.getCoinFree(coin)
             print(f"~ Available : {freeCoin}")
-
-            quantity = self.getFloatInput("Enter quantity: ")
-            return self.toCreateOrder(coin, trade, "LIMIT", price, quantity=quantity)
+            percent = self.percentage(freeCoin)
+            print(f"Quantity you set: {percent}")
+            #quantity = self.getFloatInput("Enter quantity: ")
+            return self.toCreateOrder(coin, trade, "LIMIT", price, quantity=percent)
 
 
     """
@@ -126,20 +127,26 @@ class TradeSpotSocket(Spot, PrintCommand):
 
 
     def queryOrder(self):
-        coin = self.coinInput()
+        coin = self.coinInput(self.spotinfo.getQuerySymbols)
+        if coin is None:
+            return
         orderId = str(input("Enter order id: "))
         order = self.toQueryOrder(coin, orderId)
 
         # print(f"Your order detail: {order}")
 
     def queryOpenOrders(self):
-        coin = self.coinInput()
+        coin = self.coinInput(self.spotinfo.getQuerySymbols)
+        if coin is None:
+            return
         order = self.toQueryOpenOrders(coin)
 
         print(f"Your open orders: {order}")
 
     def orderHistory(self):
-        coin = self.coinInput()
+        coin = self.coinInput(self.spotinfo.getQuerySymbols)
+        if coin is None:
+            return
         endTime = int(time.time() * 1000)  # Current time in milliseconds
         days = int(input("How many days ago: "))
         startTime = endTime - (days * 24 * 60 * 60 * 1000)  # 7 days ago in milliseconds
