@@ -64,7 +64,7 @@ class Notify(SpotInfo):
     def send_notification(self, coinMessage, price):
         sender_email = config.email
         password = config.password
-        receiver_email = "linspiringhh@gmail.com"
+        receiver_email = config.receiver_email
 
         # Email content
         subject = f"Alert: {coinMessage}"
