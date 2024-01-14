@@ -3,6 +3,8 @@ import smtplib
 from email.message import EmailMessage
 from collections import deque
 from datetime import datetime
+
+import config
 from backend.market.spotinfo import SpotInfo
 
 class Notify(SpotInfo):
@@ -11,13 +13,19 @@ class Notify(SpotInfo):
         coin_thresholds = self.priceInput()
         notified_coins = set()
         while True:
-
-            for coin, threshold in coin_thresholds.items():
+            print(f"--------------{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}--------------")
+            for coin, thresholds in coin_thresholds.items():
                 current_price = self.getLastprice(coin)
                 print(f"{coin} Price: {current_price}")
 
-                if current_price and current_price >= threshold and coin not in notified_coins:
-                    self.send_notification(coin, current_price)
+                upper_threshold = thresholds.get('upper')
+                lower_threshold = thresholds.get('lower')
+
+                if upper_threshold and current_price >= upper_threshold and coin not in notified_coins:
+                    self.send_notification(f"{coin} crossed above {upper_threshold}", current_price)
+                    notified_coins.add(coin)
+                elif lower_threshold and current_price <= lower_threshold and coin not in notified_coins:
+                    self.send_notification(f"{coin} dropped below {lower_threshold}", current_price)
                     notified_coins.add(coin)
 
             time.sleep(check_interval)
@@ -53,15 +61,14 @@ class Notify(SpotInfo):
             print(f"--------------{current_time.strftime('%Y-%m-%d %H:%M:%S')}--------------")
             time.sleep(check_interval)
 
-
-    def send_notification(self, coin, price):
-        sender_email = "ericericxx@gmail.com"
-        password = "xkhekpbmdnisfors"
+    def send_notification(self, coinMessage, price):
+        sender_email = config.email
+        password = config.password
         receiver_email = "linspiringhh@gmail.com"
 
         # Email content
-        subject = f"Alert: {coin} has reached the price of {price}"
-        body = f"The price of {coin} is now {price}."
+        subject = f"Alert: {coinMessage}"
+        body = f"The price of {coinMessage} is now {price}."
 
         # Create EmailMessage object and set its content
         msg = EmailMessage()
@@ -93,15 +100,23 @@ class Notify(SpotInfo):
     def priceInput(self):
         coins = self.coinInput()
         targetPrices={}
-        while True:
-            for coin in coins:
+        for coin in coins:
+            try:
                 current_price = self.getLastprice(coin)
-                print(f"{coin} price : {current_price}")
-                target_price = float(input(f"Enter target price for {coin}: "))
-                targetPrices[coin] = target_price
+                print(f"{coin} current price : {current_price}")
+                target_price = float(input(f"Enter {coin} target price (Enter 0 to skip setting a threshold): "))
 
-            print("Target prices:", targetPrices)
-            return targetPrices
+                if target_price == 0:
+                    targetPrices[coin] = {'upper': None, 'lower': None}
+                elif target_price > current_price:
+                    targetPrices[coin] = {'upper': target_price, 'lower': None}
+                else:
+                    targetPrices[coin] = {'upper': None, 'lower': target_price}
+            except ValueError:
+                print("Please enter a valid number.")
+
+        print(f"{targetPrices}")
+        return targetPrices
 
 # Example usage
 class_instance = Notify()
