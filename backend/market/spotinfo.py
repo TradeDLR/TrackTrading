@@ -1,33 +1,71 @@
 from backend.utils.apiUtils import getBingxAPI
 import time
-import datetime
-
 
 class SpotInfo:
     def __init__(self):
         self.bingxAPI = getBingxAPI()
 
     def getQuerySymbols(self, coin):
-        symbols = self.bingxAPI.fetchMarketData('spot/v1/common/symbols').get('data', {}).get('symbols', [])
-        symbol = coin + "-USDT"
-        spot = next((s for s in symbols if s['symbol'] == symbol), None)
-        return spot  # self.bingxAPI.fetchMarketData('spot/v1/common/symbols')
+        response = self.bingxAPI.fetchMarketData('spot/v1/common/symbols', coin)
+        #print(f"{response}")
+        data = response.get('data', {})
+        if data['symbols'] == None:
+            return None
+        else:
+            symbols = data['symbols'][0]
+            return symbols
 
-    # TODO:
-    def getTranscationRecords(self, coin: str, limit: int = 2):
-        return self.bingxAPI.fetchMarketData('spot/v1/market/trades', coin, limit=limit)#.get('data',[])
+    def getTransactionRecords(self, coin: str, limit: int = 0):
+        response =  self.bingxAPI.fetchMarketData('spot/v1/market/trades', coin, limit=limit)
+        #print(f"{response}")
+        info = response['data']
+        data = []
+        for n in range(limit):
+            data.append(info[n])
+        return data
 
-    # TODO:
-    def getDepthInfo(self, coin: str, limit: int = 2):
-        return self.bingxAPI.fetchMarketData('spot/v1/market/depth', coin, limit=limit)
+    def getDepthInfo(self, coin: str, limit: int = 0):
+        response = self.bingxAPI.fetchMarketData('spot/v1/market/depth', coin, method="GET",  limit=limit)
+        #print(f"{response}")
+        info = response['data']
+        infos = {'bid_price': [], 'bid_qty': [], 'ask_price': [], 'ask_qty': []}
+        for n in range(limit):
+            infos['bid_price'].append(info['bids'][n][0])
+            infos['bid_qty'].append(info['bids'][n][1])
+            infos['ask_price'].append(info['asks'][n][0])
+            infos['ask_qty'].append(info['asks'][n][1])
 
-    # TODO:
-    def getCandleChart(self, coin: str, interval: str = '1h', startTime: int = int(time.time() * 1000),
-                       endTime: int = int(time.time() * 1000) - 5000, limit: int = 0):
-        return self.bingxAPI.fetchMarketData('spot/v1/market/kline', coin, interval=interval, startTime=startTime,
-                                             endTime=endTime, limit=limit)
+        fields = ["bid_price", "bid_qty", "ask_price", "ask_qty"]
+        results = tuple(infos.get(field, '') for field in fields)
+        #print(f"{infos}")
+        return results
+
+    def getCandleChart(self, coin: str, interval: str, startTime: int = 0, endTime: int = 0, limit: int = 0):
+        response = self.bingxAPI.fetchMarketData('spot/v2/market/kline', coin, interval=interval, limit=limit)
+        #print(f"{response}")
+        info = response['data']
+        list = {'open_price': [], 'max_price': [], 'min_price': [], 'close_price': []}
+        for n in range(limit):
+            list['open_price'].append(info[n][1])
+            list['max_price'].append(info[n][2])
+            list['min_price'].append(info[n][3])
+            list['close_price'].append(info[n][4])
+        #return results
+
+        fields = ["open_price", "max_price", "min_price", "close_price"]
+        results = tuple(list.get(field, '') for field in fields)
+        return results
 
     def getPrice(self, coin):
+        response = self.bingxAPI.fetchMarketData('spot/v1/ticker/24hr', coin)
+        #print(f"{response}")
+        info = response['data'][0]
+        fields = ["openPrice", "highPrice", "lowPrice", "lastPrice", "volume"]
+        results = tuple(info.get(field, '') for field in fields)
+
+        return results
+
+    def getLastprice(self, coin):
         try:
             data = self.bingxAPI.fetchMarketData('spot/v1/ticker/24hr', coin)
             # print(data)
@@ -45,14 +83,16 @@ def getSpotInfo():
     return SpotInfo()
 
 
+
 # spotinfo = SpotInfo()
-# coin = ["BTC", "ETH"]
-# coin = "BTC"
-# currentTime = int(time.time() * 1000)
-# fiveSecondAgo = currentTime - 5000
 #
-# print(spotinfo.getQuerySymbols(coin))
-# print(spotinfo.getTranscationRecords(coin))
-# print(spotinfo.getDepthInfo(coin))
-# print(spotinfo.getCandleChart(coin, "4h", startTime=fiveSecondAgo, endTime=currentTime, limit=3))
-# print(spotinfo.getPrice(coin))
+# coin = "BTC"
+
+#currentTime = int(time.time() * 1000)
+#fiveSecondAgo = currentTime - 5000000
+
+#print(spotinfo.getQuerySymbols(coin))
+#print(spotinfo.getTransactionRecords(coin, 2))
+#print(spotinfo.getDepthInfo(coin, 2))
+#print(spotinfo.getCandleChart(coin, "1m", limit=2))
+#print(spotinfo.getPrice(coin))

@@ -76,6 +76,7 @@ class PerpInfo:
         response = self.bingxAPI.fetchMarketData("swap/v2/quote/ticker", coin).get('data', {})
         fields = ["priceChange", "priceChangePercent", "lastPrice", "lastQty", "highPrice", "lowPrice", "openPrice"]
         return tuple(response.get(field, '') for field in fields)
+        #return response
 
     def getBookTicker(self, coin: str):
         #purchasePrice = self.fetchMarketData("v2/quote/bookTicker", coin).get("data", {}).get("book_ticker", {}).get("bid_price", '')
@@ -90,18 +91,18 @@ class PerpInfo:
 
 
 
-# mar = PerpInfo()
-# crypto_coin = "B"
+mar = PerpInfo()
+crypto_coin = "BTC"
 # currentTime = int(time.time() * 1000)
 # fiveSecondAgo = currentTime - 5000
 #
-# print(mar.getContractInfo(crypto_coin))
+#print(mar.getContractInfo(crypto_coin))
 # print("LatestPrice", mar.getLatestPrice(crypto_coin))
 # print("MarketDept", mar.getMarketDepth(crypto_coin, 5))
-# print("LatestTrade", mar.getLatestTrade(crypto_coin, limit=1))
+#print("LatestTrade", mar.getLatestTrade(crypto_coin, limit=1))
 # print("CurrentFundingRate", mar.getCurrentFundingRate(crypto_coin))
 # print("FundingRateHistory", mar.getFundingRateHistory(crypto_coin, start=fiveSecondAgo, end=currentTime, limit=0))
 # print("KLines", mar.getKLines(crypto_coin, "4h", start=fiveSecondAgo, end=currentTime, limit=3))
 # print("OpenInterest", mar.getOpenInterest(crypto_coin))
-# print("Ticker", mar.getTicker(crypto_coin))
+#print("Ticker", mar.getTicker(crypto_coin))
 # print("BookTicker", mar.getBookTicker(crypto_coin))
