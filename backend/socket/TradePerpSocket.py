@@ -36,6 +36,9 @@ class TradePerpSocket(Perpetual, PrintCommand):
         if trade == "BUY":
             quantity = self.getFloatInput("Enter quote order quantity: ")
             return self.openOrder(coin, trade, "LIMIT", price, quantity=quantity)
+        else:  # SELL
+            quantity = self.getFloatInput("Enter quote order quantity: ")
+            return self.openOrder(coin, trade, "LIMIT", price, quantity=quantity)
 
     def createPerpOrder(self):
         if self.perpbalance.updatePerpBalance():
